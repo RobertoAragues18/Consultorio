@@ -4,6 +4,11 @@
  */
 package vistas;
 
+import bbdd.Conexion;
+import java.awt.Color;
+import javax.swing.JOptionPane;
+import utilidades.Utilidades;
+
 /**
  *
  * @author rober
@@ -26,21 +31,122 @@ public class Login extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        campoUsuario = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        campoPass = new javax.swing.JPasswordField();
+        botonEntrar = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(755, 450));
+        setMinimumSize(new java.awt.Dimension(755, 450));
+        setSize(new java.awt.Dimension(755, 450));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/hospitalLogin.png"))); // NOI18N
+
+        jPanel1.setBackground(new java.awt.Color(0, 204, 204));
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/logo_good.png"))); // NOI18N
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel3.setText("Usuario");
+
+        campoUsuario.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel4.setText("Contraseña");
+
+        campoPass.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        botonEntrar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        botonEntrar.setText("ENTRAR");
+        botonEntrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonEntrarActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(69, 69, 69)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4))
+                        .addGap(21, 21, 21)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(campoUsuario)
+                            .addComponent(campoPass, javax.swing.GroupLayout.DEFAULT_SIZE, 131, Short.MAX_VALUE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(145, 145, 145)
+                        .addComponent(jLabel2))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(132, 132, 132)
+                        .addComponent(botonEntrar, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(78, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(70, 70, 70)
+                .addComponent(jLabel2)
+                .addGap(53, 53, 53)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(campoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(38, 38, 38)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(campoPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(41, 41, 41)
+                .addComponent(botonEntrar)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void botonEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEntrarActionPerformed
+        // TODO add your handling code here:
+        if (Utilidades.campoVacio(campoUsuario)) {
+            Utilidades.lanzaAlertaCampoVacio(rootPane, "El campo " + campoUsuario.getName() + " esta vacío");
+            campoUsuario.setBackground(new Color(255, 200, 200));
+            campoPass.setBackground(Color.WHITE);
+        } else if (Utilidades.campoVacio(campoPass)) {
+            Utilidades.lanzaAlertaCampoVacio(rootPane, "El campo " + campoPass.getName() + " esta vacío");
+            campoPass.setBackground(new Color(255, 200, 200));
+            campoUsuario.setBackground(Color.WHITE);
+        } else {
+            campoPass.setBackground(Color.WHITE);
+            campoUsuario.setBackground(Color.WHITE);
+            entrar();
+        }
+    }//GEN-LAST:event_botonEntrarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -78,5 +184,33 @@ public class Login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton botonEntrar;
+    private javax.swing.JPasswordField campoPass;
+    private javax.swing.JTextField campoUsuario;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
+    
+    public static String miusuario;
+    public static String mipass;
+    
+    public void entrar(){
+        miusuario = campoUsuario.getText();
+        mipass = utilidades.Encriptado.encriptar(new String(campoPass.getPassword()));
+        Conexion.conexion();
+        
+        if(Conexion.acceder(miusuario, mipass)){
+            MenuPrincipal mp = new MenuPrincipal();
+            mp.setVisible(true);
+            this.dispose();
+        }else{
+            JOptionPane.showMessageDialog(this, "Usuario o contraseña erróneos. Inténtelo de nuevo", "Error en el login", JOptionPane.ERROR_MESSAGE);
+            campoUsuario.setText("");
+            campoPass.setText("");
+        }
+        Conexion.cerrarConexion();
+    }
 }

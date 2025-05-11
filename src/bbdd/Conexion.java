@@ -5,6 +5,12 @@
 package bbdd;
 
 import com.mysql.jdbc.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JComboBox;
 import javax.swing.table.DefaultTableModel;
 import modelo.Cita;
@@ -18,15 +24,20 @@ import modelo.Personal;
  * @author rober
  */
 public class Conexion {
-
+    static Connection conn;
     /**
      * Método donde se establecen los parámetros de conexión con la base de
      * datos.
      *
      * @return
      */
-    public static Connection conexion() {
-
+    public static void conexion() {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            java.sql.Connection conn = DriverManager.getConnection("jdbc:mysql://145.14.151.1/u812167471_consultorio25", "u812167471_consultorio25", "2025-Consultorio");
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -35,7 +46,11 @@ public class Conexion {
      * @return
      */
     public static void cerrarConexion() {
-
+        try {
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -46,7 +61,23 @@ public class Conexion {
      * @return
      */
     public static boolean acceder(String user, String pass) {
+        try {
+            String consulta = "SELECT usuario, contrasenya FROM perosnal "
+                    + "WHERE usuario =? AND contrasenya=?";
 
+            PreparedStatement pst;
+            ResultSet rs;
+
+            pst = conn.prepareStatement(consulta);
+            pst.setString(1, user);
+            pst.setString(2, pass);
+            rs = pst.executeQuery();
+
+            return rs.next();
+        } catch (SQLException ex) {
+            Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
 
     /**
@@ -59,6 +90,8 @@ public class Conexion {
      * @return
      */
     public static String[] recuperaDatosUserLogado(String user) {
+
+        return null;
 
     }
 
@@ -91,6 +124,8 @@ public class Conexion {
      */
     public static boolean registrarCitaMedica(Cita c) {
 
+        return false;
+
     }
 
     /**
@@ -101,6 +136,8 @@ public class Conexion {
      * @return
      */
     public static boolean registrarCitaEnfermeria(Cita c) {
+
+        return false;
 
     }
 
@@ -113,6 +150,8 @@ public class Conexion {
      */
     public static boolean compruebaDni(String dni) {
 
+        return false;
+
     }
 
     /**
@@ -123,6 +162,8 @@ public class Conexion {
      * @return
      */
     public static Paciente recuperaDatosPaciente(String dni) {
+
+        return null;
 
     }
 
@@ -156,6 +197,8 @@ public class Conexion {
      */
     public static boolean registrarConsultaMedica(Consulta c) {
 
+        return false;
+
     }
 
     /**
@@ -165,6 +208,8 @@ public class Conexion {
      * @return
      */
     public static boolean registrarConsultaEnfermeria(ConsultaEnfermeria c) {
+
+        return false;
 
     }
 
@@ -185,6 +230,8 @@ public class Conexion {
      * @return
      */
     public static boolean registrarPaciente(Paciente p) {
+
+        return false;
 
     }
 
@@ -207,6 +254,8 @@ public class Conexion {
      */
     public static boolean compruebaUser(String user) {
 
+        return false;
+
     }
 
     /**
@@ -219,6 +268,8 @@ public class Conexion {
      */
     public static boolean compruebaNumeroColegiado(long numero) {
 
+        return false;
+
     }
 
     /**
@@ -229,6 +280,8 @@ public class Conexion {
      * @return
      */
     public static boolean registrarPersonal(Personal p) {
+
+        return false;
 
     }
 }

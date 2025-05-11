@@ -4,6 +4,8 @@
  */
 package consultorio;
 
+import vistas.Login;
+
 /**
  *
  * @author rober
@@ -15,6 +17,8 @@ public class Consultorio {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        Login l = new Login();
+        l.setVisible(true);
     }
     
 }

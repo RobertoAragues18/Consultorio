@@ -15,4 +15,45 @@ public class Cita {
     private String motivo;
     private Date dia;
     private double hora;
+
+    public Cita(String dniPaciente, String motivo, Date dia, double hora) {
+        this.dniPaciente = dniPaciente;
+        this.motivo = motivo;
+        this.dia = dia;
+        this.hora = hora;
+    }
+
+    public String getDniPaciente() {
+        return dniPaciente;
+    }
+
+    public void setDniPaciente(String dniPaciente) {
+        this.dniPaciente = dniPaciente;
+    }
+
+    public String getMotivo() {
+        return motivo;
+    }
+
+    public void setMotivo(String motivo) {
+        this.motivo = motivo;
+    }
+
+    public Date getDia() {
+        return dia;
+    }
+
+    public void setDia(Date dia) {
+        this.dia = dia;
+    }
+
+    public double getHora() {
+        return hora;
+    }
+
+    public void setHora(double hora) {
+        this.hora = hora;
+    }
+    
+    
 }
