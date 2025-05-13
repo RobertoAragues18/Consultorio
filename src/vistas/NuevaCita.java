@@ -4,6 +4,18 @@
  */
 package vistas;
 
+import bbdd.Conexion;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import modelo.Cita;
+import utilidades.Encriptado;
+import utilidades.UtilidadEmail;
+import utilidades.Utilidades;
+import static vistas.Medico.email;
+
 /**
  *
  * @author rober
@@ -87,6 +99,11 @@ public class NuevaCita extends javax.swing.JDialog {
         botonRegistrar.setBackground(new java.awt.Color(0, 102, 102));
         botonRegistrar.setForeground(new java.awt.Color(255, 255, 255));
         botonRegistrar.setText("Registrar");
+        botonRegistrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonRegistrarActionPerformed(evt);
+            }
+        });
 
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Nombre y apellidos");
@@ -171,6 +188,15 @@ public class NuevaCita extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void botonRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarActionPerformed
+        // TODO add your handling code here:
+        try {
+            nuevaCita();
+        } catch (Exception ex) {
+            Logger.getLogger(NuevaCita.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_botonRegistrarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -228,4 +254,42 @@ public class NuevaCita extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
+
+    Date fecha;
+    Double hora;
+
+    public void nuevaCita() throws Exception {
+
+        if (!Utilidades.campoVacio(campoDni)) {
+            Utilidades.lanzaAlertaCampoVacio(campoDni);
+        } else if (!Utilidades.campoVacio(campoNomApe)) {
+            Utilidades.lanzaAlertaCampoVacio(campoNomApe);
+        } else if (dateFecha.getDate() == null) {
+            JOptionPane.showMessageDialog(this, "Debes seleccionar una fecha por favor");
+        } else if (Utilidades.comboNoSeleccionado(comboHora)) {
+            JOptionPane.showMessageDialog(this, "Debes seleccionar una hora por favor");
+        } else {
+            
+            String dni = Encriptado.encriptar(campoDni.getText());
+            String nombre = Encriptado.encriptar(campoNomApe.getText());
+            hora = Double.parseDouble(comboHora.getSelectedItem().toString());
+            fecha = dateFecha.getDate();
+
+            // Crear una nueva cita
+            Cita cita2 = new Cita(campoDni.getText(), campoNomApe.getText(), fecha, hora);
+            Cita cita = new Cita(dni, nombre, fecha, hora);
+            Conexion.conexion();
+
+            if (Conexion.registrarCitaEnfermeria(cita)) {
+
+                JOptionPane.showMessageDialog(this, "Registro realizado correctamente.");
+                UtilidadEmail.enviaMailHtml(cita2, email);
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Error al realizar el registro, intentalo más tarde.");
+            }
+            Conexion.cerrarConexion();
+
+        }
+    }
 }

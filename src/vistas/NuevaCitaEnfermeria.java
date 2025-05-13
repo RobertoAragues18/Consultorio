@@ -4,6 +4,17 @@
  */
 package vistas;
 
+import bbdd.Conexion;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import modelo.Cita;
+import utilidades.Encriptado;
+import utilidades.UtilidadEmail;
+import utilidades.Utilidades;
+import static vistas.Enfermeria.email;
+
 /**
  *
  * @author rober
@@ -29,14 +40,14 @@ public class NuevaCitaEnfermeria extends javax.swing.JDialog {
 
         jPanel24 = new javax.swing.JPanel();
         jLabel91 = new javax.swing.JLabel();
-        campoDni22 = new javax.swing.JTextField();
-        botonRegistrar22 = new javax.swing.JButton();
+        campoDni = new javax.swing.JTextField();
+        botonRegistrar = new javax.swing.JButton();
         jLabel92 = new javax.swing.JLabel();
-        campoNomApe22 = new javax.swing.JTextField();
+        campoNomApe = new javax.swing.JTextField();
         jLabel93 = new javax.swing.JLabel();
         jLabel94 = new javax.swing.JLabel();
-        dateFecha22 = new com.toedter.calendar.JDateChooser();
-        comboHora22 = new javax.swing.JComboBox<>();
+        dateFecha = new com.toedter.calendar.JDateChooser();
+        comboHora = new javax.swing.JComboBox<>();
         jPanel1 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -52,16 +63,21 @@ public class NuevaCitaEnfermeria extends javax.swing.JDialog {
         jLabel91.setForeground(new java.awt.Color(255, 255, 255));
         jLabel91.setText("DNI");
 
-        campoDni22.setEditable(false);
+        campoDni.setEditable(false);
 
-        botonRegistrar22.setBackground(new java.awt.Color(0, 102, 102));
-        botonRegistrar22.setForeground(new java.awt.Color(255, 255, 255));
-        botonRegistrar22.setText("Registrar");
+        botonRegistrar.setBackground(new java.awt.Color(0, 102, 102));
+        botonRegistrar.setForeground(new java.awt.Color(255, 255, 255));
+        botonRegistrar.setText("Registrar");
+        botonRegistrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonRegistrarActionPerformed(evt);
+            }
+        });
 
         jLabel92.setForeground(new java.awt.Color(255, 255, 255));
         jLabel92.setText("Nombre y apellidos");
 
-        campoNomApe22.setEditable(false);
+        campoNomApe.setEditable(false);
 
         jLabel93.setForeground(new java.awt.Color(255, 255, 255));
         jLabel93.setText("Fecha");
@@ -69,7 +85,7 @@ public class NuevaCitaEnfermeria extends javax.swing.JDialog {
         jLabel94.setForeground(new java.awt.Color(255, 255, 255));
         jLabel94.setText("Hora");
 
-        comboHora22.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Una semana", "Dos semanas", "Un mes" }));
+        comboHora.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Una semana", "Dos semanas", "Un mes" }));
 
         javax.swing.GroupLayout jPanel24Layout = new javax.swing.GroupLayout(jPanel24);
         jPanel24.setLayout(jPanel24Layout);
@@ -77,7 +93,7 @@ public class NuevaCitaEnfermeria extends javax.swing.JDialog {
             jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel24Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(botonRegistrar22, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(botonRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(251, 251, 251))
             .addGroup(jPanel24Layout.createSequentialGroup()
                 .addGroup(jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -89,14 +105,14 @@ public class NuevaCitaEnfermeria extends javax.swing.JDialog {
                             .addComponent(jLabel94))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(campoNomApe22, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(comboHora22, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(dateFecha22, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(campoNomApe, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(comboHora, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(dateFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel24Layout.createSequentialGroup()
                         .addGap(213, 213, 213)
                         .addComponent(jLabel91)
                         .addGap(18, 18, 18)
-                        .addComponent(campoDni22, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(campoDni, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(105, Short.MAX_VALUE))
         );
         jPanel24Layout.setVerticalGroup(
@@ -105,21 +121,21 @@ public class NuevaCitaEnfermeria extends javax.swing.JDialog {
                 .addGap(37, 37, 37)
                 .addGroup(jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel91)
-                    .addComponent(campoDni22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(campoDni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(49, 49, 49)
                 .addGroup(jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel92)
-                    .addComponent(campoNomApe22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(campoNomApe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
                 .addGroup(jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel93)
-                    .addComponent(dateFecha22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(dateFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(37, 37, 37)
                 .addGroup(jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel94)
-                    .addComponent(comboHora22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(comboHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(52, 52, 52)
-                .addComponent(botonRegistrar22, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(botonRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21))
         );
 
@@ -173,6 +189,15 @@ public class NuevaCitaEnfermeria extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void botonRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarActionPerformed
+        // TODO add your handling code here:
+        try {
+            nuevaCita();
+        } catch (Exception ex) {
+            Logger.getLogger(NuevaCita.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_botonRegistrarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -217,237 +242,54 @@ public class NuevaCitaEnfermeria extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonRegistrar;
-    private javax.swing.JButton botonRegistrar1;
-    private javax.swing.JButton botonRegistrar10;
-    private javax.swing.JButton botonRegistrar11;
-    private javax.swing.JButton botonRegistrar12;
-    private javax.swing.JButton botonRegistrar13;
-    private javax.swing.JButton botonRegistrar14;
-    private javax.swing.JButton botonRegistrar15;
-    private javax.swing.JButton botonRegistrar16;
-    private javax.swing.JButton botonRegistrar17;
-    private javax.swing.JButton botonRegistrar18;
-    private javax.swing.JButton botonRegistrar19;
-    private javax.swing.JButton botonRegistrar2;
-    private javax.swing.JButton botonRegistrar20;
-    private javax.swing.JButton botonRegistrar21;
-    private javax.swing.JButton botonRegistrar22;
-    private javax.swing.JButton botonRegistrar3;
-    private javax.swing.JButton botonRegistrar4;
-    private javax.swing.JButton botonRegistrar5;
-    private javax.swing.JButton botonRegistrar6;
-    private javax.swing.JButton botonRegistrar7;
-    private javax.swing.JButton botonRegistrar8;
-    private javax.swing.JButton botonRegistrar9;
     private javax.swing.JTextField campoDni;
-    private javax.swing.JTextField campoDni1;
-    private javax.swing.JTextField campoDni10;
-    private javax.swing.JTextField campoDni11;
-    private javax.swing.JTextField campoDni12;
-    private javax.swing.JTextField campoDni13;
-    private javax.swing.JTextField campoDni14;
-    private javax.swing.JTextField campoDni15;
-    private javax.swing.JTextField campoDni16;
-    private javax.swing.JTextField campoDni17;
-    private javax.swing.JTextField campoDni18;
-    private javax.swing.JTextField campoDni19;
-    private javax.swing.JTextField campoDni2;
-    private javax.swing.JTextField campoDni20;
-    private javax.swing.JTextField campoDni21;
-    private javax.swing.JTextField campoDni22;
-    private javax.swing.JTextField campoDni3;
-    private javax.swing.JTextField campoDni4;
-    private javax.swing.JTextField campoDni5;
-    private javax.swing.JTextField campoDni6;
-    private javax.swing.JTextField campoDni7;
-    private javax.swing.JTextField campoDni8;
-    private javax.swing.JTextField campoDni9;
     private javax.swing.JTextField campoNomApe;
-    private javax.swing.JTextField campoNomApe1;
-    private javax.swing.JTextField campoNomApe10;
-    private javax.swing.JTextField campoNomApe11;
-    private javax.swing.JTextField campoNomApe12;
-    private javax.swing.JTextField campoNomApe13;
-    private javax.swing.JTextField campoNomApe14;
-    private javax.swing.JTextField campoNomApe15;
-    private javax.swing.JTextField campoNomApe16;
-    private javax.swing.JTextField campoNomApe17;
-    private javax.swing.JTextField campoNomApe18;
-    private javax.swing.JTextField campoNomApe19;
-    private javax.swing.JTextField campoNomApe2;
-    private javax.swing.JTextField campoNomApe20;
-    private javax.swing.JTextField campoNomApe21;
-    private javax.swing.JTextField campoNomApe22;
-    private javax.swing.JTextField campoNomApe3;
-    private javax.swing.JTextField campoNomApe4;
-    private javax.swing.JTextField campoNomApe5;
-    private javax.swing.JTextField campoNomApe6;
-    private javax.swing.JTextField campoNomApe7;
-    private javax.swing.JTextField campoNomApe8;
-    private javax.swing.JTextField campoNomApe9;
     private javax.swing.JComboBox<String> comboHora;
-    private javax.swing.JComboBox<String> comboHora1;
-    private javax.swing.JComboBox<String> comboHora10;
-    private javax.swing.JComboBox<String> comboHora11;
-    private javax.swing.JComboBox<String> comboHora12;
-    private javax.swing.JComboBox<String> comboHora13;
-    private javax.swing.JComboBox<String> comboHora14;
-    private javax.swing.JComboBox<String> comboHora15;
-    private javax.swing.JComboBox<String> comboHora16;
-    private javax.swing.JComboBox<String> comboHora17;
-    private javax.swing.JComboBox<String> comboHora18;
-    private javax.swing.JComboBox<String> comboHora19;
-    private javax.swing.JComboBox<String> comboHora2;
-    private javax.swing.JComboBox<String> comboHora20;
-    private javax.swing.JComboBox<String> comboHora21;
-    private javax.swing.JComboBox<String> comboHora22;
-    private javax.swing.JComboBox<String> comboHora3;
-    private javax.swing.JComboBox<String> comboHora4;
-    private javax.swing.JComboBox<String> comboHora5;
-    private javax.swing.JComboBox<String> comboHora6;
-    private javax.swing.JComboBox<String> comboHora7;
-    private javax.swing.JComboBox<String> comboHora8;
-    private javax.swing.JComboBox<String> comboHora9;
     private com.toedter.calendar.JDateChooser dateFecha;
-    private com.toedter.calendar.JDateChooser dateFecha1;
-    private com.toedter.calendar.JDateChooser dateFecha10;
-    private com.toedter.calendar.JDateChooser dateFecha11;
-    private com.toedter.calendar.JDateChooser dateFecha12;
-    private com.toedter.calendar.JDateChooser dateFecha13;
-    private com.toedter.calendar.JDateChooser dateFecha14;
-    private com.toedter.calendar.JDateChooser dateFecha15;
-    private com.toedter.calendar.JDateChooser dateFecha16;
-    private com.toedter.calendar.JDateChooser dateFecha17;
-    private com.toedter.calendar.JDateChooser dateFecha18;
-    private com.toedter.calendar.JDateChooser dateFecha19;
-    private com.toedter.calendar.JDateChooser dateFecha2;
-    private com.toedter.calendar.JDateChooser dateFecha20;
-    private com.toedter.calendar.JDateChooser dateFecha21;
-    private com.toedter.calendar.JDateChooser dateFecha22;
-    private com.toedter.calendar.JDateChooser dateFecha3;
-    private com.toedter.calendar.JDateChooser dateFecha4;
-    private com.toedter.calendar.JDateChooser dateFecha5;
-    private com.toedter.calendar.JDateChooser dateFecha6;
-    private com.toedter.calendar.JDateChooser dateFecha7;
-    private com.toedter.calendar.JDateChooser dateFecha8;
-    private com.toedter.calendar.JDateChooser dateFecha9;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel22;
-    private javax.swing.JLabel jLabel23;
-    private javax.swing.JLabel jLabel24;
-    private javax.swing.JLabel jLabel25;
-    private javax.swing.JLabel jLabel26;
-    private javax.swing.JLabel jLabel27;
-    private javax.swing.JLabel jLabel28;
-    private javax.swing.JLabel jLabel29;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel30;
-    private javax.swing.JLabel jLabel31;
-    private javax.swing.JLabel jLabel32;
-    private javax.swing.JLabel jLabel33;
-    private javax.swing.JLabel jLabel34;
-    private javax.swing.JLabel jLabel35;
-    private javax.swing.JLabel jLabel36;
-    private javax.swing.JLabel jLabel37;
-    private javax.swing.JLabel jLabel38;
-    private javax.swing.JLabel jLabel39;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel40;
-    private javax.swing.JLabel jLabel41;
-    private javax.swing.JLabel jLabel42;
-    private javax.swing.JLabel jLabel43;
-    private javax.swing.JLabel jLabel44;
-    private javax.swing.JLabel jLabel45;
-    private javax.swing.JLabel jLabel46;
-    private javax.swing.JLabel jLabel47;
-    private javax.swing.JLabel jLabel48;
-    private javax.swing.JLabel jLabel49;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel50;
-    private javax.swing.JLabel jLabel51;
-    private javax.swing.JLabel jLabel52;
-    private javax.swing.JLabel jLabel53;
-    private javax.swing.JLabel jLabel54;
-    private javax.swing.JLabel jLabel55;
-    private javax.swing.JLabel jLabel56;
-    private javax.swing.JLabel jLabel57;
-    private javax.swing.JLabel jLabel58;
-    private javax.swing.JLabel jLabel59;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel60;
-    private javax.swing.JLabel jLabel61;
-    private javax.swing.JLabel jLabel62;
-    private javax.swing.JLabel jLabel63;
-    private javax.swing.JLabel jLabel64;
-    private javax.swing.JLabel jLabel65;
-    private javax.swing.JLabel jLabel66;
-    private javax.swing.JLabel jLabel67;
-    private javax.swing.JLabel jLabel68;
-    private javax.swing.JLabel jLabel69;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel70;
-    private javax.swing.JLabel jLabel71;
-    private javax.swing.JLabel jLabel72;
-    private javax.swing.JLabel jLabel73;
-    private javax.swing.JLabel jLabel74;
-    private javax.swing.JLabel jLabel75;
-    private javax.swing.JLabel jLabel76;
-    private javax.swing.JLabel jLabel77;
-    private javax.swing.JLabel jLabel78;
-    private javax.swing.JLabel jLabel79;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel80;
-    private javax.swing.JLabel jLabel81;
-    private javax.swing.JLabel jLabel82;
-    private javax.swing.JLabel jLabel83;
-    private javax.swing.JLabel jLabel84;
-    private javax.swing.JLabel jLabel85;
-    private javax.swing.JLabel jLabel86;
-    private javax.swing.JLabel jLabel87;
-    private javax.swing.JLabel jLabel88;
-    private javax.swing.JLabel jLabel89;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JLabel jLabel90;
     private javax.swing.JLabel jLabel91;
     private javax.swing.JLabel jLabel92;
     private javax.swing.JLabel jLabel93;
     private javax.swing.JLabel jLabel94;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel10;
-    private javax.swing.JPanel jPanel11;
-    private javax.swing.JPanel jPanel12;
-    private javax.swing.JPanel jPanel13;
-    private javax.swing.JPanel jPanel14;
-    private javax.swing.JPanel jPanel15;
-    private javax.swing.JPanel jPanel16;
-    private javax.swing.JPanel jPanel17;
-    private javax.swing.JPanel jPanel18;
-    private javax.swing.JPanel jPanel19;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel20;
-    private javax.swing.JPanel jPanel21;
-    private javax.swing.JPanel jPanel22;
-    private javax.swing.JPanel jPanel23;
     private javax.swing.JPanel jPanel24;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel8;
-    private javax.swing.JPanel jPanel9;
     // End of variables declaration//GEN-END:variables
+    Date fecha;
+    Double hora;
+    
+    public void nuevaCita() throws Exception {
+
+        if (!Utilidades.campoVacio(campoDni)) {
+            Utilidades.lanzaAlertaCampoVacio(campoDni);
+        } else if (!Utilidades.campoVacio(campoNomApe)) {
+            Utilidades.lanzaAlertaCampoVacio(campoNomApe);
+        } else if (dateFecha.getDate() == null) {
+            JOptionPane.showMessageDialog(this, "Debes seleccionar una fecha por favor");
+        } else if (Utilidades.comboNoSeleccionado(comboHora)) {
+            JOptionPane.showMessageDialog(this, "Debes seleccionar una hora por favor");
+        } else {
+            
+            String dni = Encriptado.encriptar(campoDni.getText());
+            String nombre = Encriptado.encriptar(campoNomApe.getText());
+            hora = Double.parseDouble(comboHora.getSelectedItem().toString());
+            fecha = dateFecha.getDate();
+
+            // Crear una nueva cita
+            Cita cita2 = new Cita(campoDni.getText(), campoNomApe.getText(), fecha, hora);
+            Cita cita = new Cita(dni, nombre, fecha, hora);
+            Conexion.conexion();
+
+            if (Conexion.registrarCitaEnfermeria(cita)) {
+
+                JOptionPane.showMessageDialog(this, "Registro realizado correctamente.");
+                UtilidadEmail.enviaMailHtml(cita2, email);
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Error al realizar el registro, intentalo más tarde.");
+            }
+            Conexion.cerrarConexion();
+
+        }
+    }
 }

@@ -4,6 +4,12 @@
  */
 package vistas;
 
+import bbdd.Conexion;
+import java.util.Date;
+import javax.swing.JOptionPane;
+import modelo.Consulta;
+import utilidades.Utilidades;
+
 /**
  *
  * @author rober
@@ -16,6 +22,7 @@ public class NuevaConsultaMedica extends javax.swing.JDialog {
     public NuevaConsultaMedica(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        campoDni.setText(Medico.dni);
     }
 
     /**
@@ -95,10 +102,20 @@ public class NuevaConsultaMedica extends javax.swing.JDialog {
         botonCancelar.setBackground(new java.awt.Color(0, 102, 102));
         botonCancelar.setForeground(new java.awt.Color(255, 255, 255));
         botonCancelar.setText("Cancelar");
+        botonCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCancelarActionPerformed(evt);
+            }
+        });
 
         botonGuardar.setBackground(new java.awt.Color(0, 102, 102));
         botonGuardar.setForeground(new java.awt.Color(255, 255, 255));
         botonGuardar.setText("Guardar");
+        botonGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonGuardarActionPerformed(evt);
+            }
+        });
 
         campoDiagnostico.setColumns(20);
         campoDiagnostico.setRows(5);
@@ -193,6 +210,17 @@ public class NuevaConsultaMedica extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void botonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarActionPerformed
+        // TODO add your handling code here:
+        registar();
+        this.dispose();
+    }//GEN-LAST:event_botonGuardarActionPerformed
+
+    private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_botonCancelarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -255,4 +283,37 @@ public class NuevaConsultaMedica extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     // End of variables declaration//GEN-END:variables
+    String diag;
+    String trat;
+    String obser;
+    Date fecha = new Date();
+    int colegiado;
+
+    public void registar() {
+
+        if (!Utilidades.areavacia(campoDiagnostico)) {
+            JOptionPane.showMessageDialog(this, "campo obligatorio");
+        } else if (!Utilidades.areavacia(campoObservaciones)) {
+            JOptionPane.showMessageDialog(this, "campo abligatorio");
+        } else if (!Utilidades.areavacia(campoTratamiento)) {
+            JOptionPane.showMessageDialog(this, "campo obligatorio");
+        } else {
+            String dni = campoDni.getText();
+            diag = campoDiagnostico.getText();
+            trat = campoTratamiento.getText();
+            obser = campoObservaciones.getText();
+            colegiado = Integer.parseInt(Login.datosPersona[1]);
+
+            Consulta cg = new Consulta(dni, fecha, diag, trat, obser, colegiado);
+            Conexion.conexion();
+
+            if (Conexion.registrarConsultaMedica(cg)) {
+                JOptionPane.showMessageDialog(this, "Registro realizado correctamente");
+            } else {
+                JOptionPane.showMessageDialog(this, "Error en la acción de registro. Inténtelo más tarde o póngase en contacto con el administrador del sistema");
+            }
+            Conexion.cerrarConexion();
+        }
+
+    }
 }

@@ -4,17 +4,35 @@
  */
 package vistas;
 
+import bbdd.Conexion;
+import java.awt.Insets;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
+import modelo.Paciente;
+import utilidades.Utilidades;
+
 /**
  *
  * @author rober
  */
 public class Enfermeria extends javax.swing.JDialog {
-
+    JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
     /**
      * Creates new form Enfermeria
      */
+     public static String email;
+     public static String dni;
+     public static String nom;
+     public static String ape;
+        DefaultTableModel mod;
     public Enfermeria(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+        super(parent, modal);     
         initComponents();
     }
 
@@ -53,7 +71,6 @@ public class Enfermeria extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(1175, 650));
         setMinimumSize(new java.awt.Dimension(1175, 650));
-        setPreferredSize(new java.awt.Dimension(1175, 650));
         setSize(new java.awt.Dimension(1175, 650));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -93,6 +110,11 @@ public class Enfermeria extends javax.swing.JDialog {
         botonBuscarPaciente.setBackground(new java.awt.Color(0, 0, 0));
         botonBuscarPaciente.setForeground(new java.awt.Color(255, 255, 255));
         botonBuscarPaciente.setText("BUSCAR PACIENTE");
+        botonBuscarPaciente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonBuscarPacienteActionPerformed(evt);
+            }
+        });
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 1, true), "PACIENTE", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(255, 255, 255))); // NOI18N
@@ -111,6 +133,11 @@ public class Enfermeria extends javax.swing.JDialog {
         jLabel5.setText("Email");
 
         botonInforme.setText("Nuevo Informe");
+        botonInforme.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonInformeActionPerformed(evt);
+            }
+        });
 
         botonCita.setText("Nueva Cita");
         botonCita.addActionListener(new java.awt.event.ActionListener() {
@@ -180,9 +207,19 @@ public class Enfermeria extends javax.swing.JDialog {
                 "FECHA", "DIAGNÓSTICO", "TRATAMIENTO", "OBSERVACIONES"
             }
         ));
+        tabla.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tabla);
 
         botonActualizarTabla.setText("Actualizar tabla");
+        botonActualizarTabla.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonActualizarTablaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -249,9 +286,70 @@ public class Enfermeria extends javax.swing.JDialog {
 
     private void botonCitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCitaActionPerformed
         // TODO add your handling code here:
-        NuevaCitaEnfermeria nce = new NuevaCitaEnfermeria(parent, true);
+        NuevaCitaEnfermeria nce = new NuevaCitaEnfermeria(frame, true);
         nce.setVisible(true);
     }//GEN-LAST:event_botonCitaActionPerformed
+
+    private void botonInformeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonInformeActionPerformed
+        // TODO add your handling code here:
+        NuevaConsultaEnfermeria consulta = new NuevaConsultaEnfermeria(frame, true);
+        consulta.setVisible(true);
+    }//GEN-LAST:event_botonInformeActionPerformed
+
+    private void botonBuscarPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarPacienteActionPerformed
+        // TODO add your handling code here:
+        dni = campoDni.getText();
+        Conexion.conexion();
+
+        if (Utilidades.campoVacio(campoDni)) {
+            Utilidades.lanzaAlertaCampoVacio(campoDni);
+        } else if (!Utilidades.confirmaacionDNI(campoDni)) {
+            JOptionPane.showMessageDialog(this, "El DNI no es válido, introduzca uno válido por favor");
+
+        } else {
+            
+            try {
+                Paciente paciente = Conexion.recuperaDatosPaciente(campoDni.getText());
+                if (paciente != null) {
+                   
+                   
+                    campoNombre.setText(paciente.getNombre());
+                    campoApellidos.setText(paciente.getApellidos());
+                    campoTelefono.setText(String.valueOf((char) paciente.getTelefono()));
+                    campoEmail.setText(paciente.getEmail());
+                    botonActualizarTabla.setEnabled(rootPaneCheckingEnabled);
+                    mod = (DefaultTableModel) tabla.getModel();
+                    botonCita.setEnabled(rootPaneCheckingEnabled);
+                    botonInforme.setEnabled(rootPaneCheckingEnabled);
+                    Conexion.cargarTablaConsultasEnfermeria(mod, dni);
+                } else {
+                    JOptionPane.showMessageDialog(this, "No se encontró un paciente con el DNI proporcionado.");
+                    NuevoPaciente N = new NuevoPaciente(frame, true);
+                    N.setVisible(true);
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(Enfermeria.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                    dni = campoDni.getText();
+                    nom = campoNombre.getText();
+                    ape = campoApellidos.getText();
+                    email = campoEmail.getText();
+        }             
+    }//GEN-LAST:event_botonBuscarPacienteActionPerformed
+
+    private void botonActualizarTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonActualizarTablaActionPerformed
+        // TODO add your handling code here:
+        DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+        modelo.setRowCount(0);
+        Conexion.conexion();
+        Conexion.cargarTablaConsultasEnfermeria(mod, dni);
+        Conexion.cerrarConexion();
+    }//GEN-LAST:event_botonActualizarTablaActionPerformed
+
+    private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
+        // TODO add your handling code here:
+        datosFila();
+    }//GEN-LAST:event_tablaMouseClicked
 
     /**
      * @param args the command line arguments
@@ -319,4 +417,23 @@ public class Enfermeria extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tabla;
     // End of variables declaration//GEN-END:variables
+     private void datosFila() {
+
+        String contenido = "FECHA DE CONSULTA: " + String.valueOf(tabla.getValueAt(tabla.getSelectedRow(), 0));
+        contenido += "\n\nMAXIMA:\n " + String.valueOf(tabla.getValueAt(tabla.getSelectedRow(), 1));
+        contenido += "\n\nMINIMA:\n " + String.valueOf(tabla.getValueAt(tabla.getSelectedRow(), 2));
+        contenido += "\n\nGLUCOSA:\n " + String.valueOf(tabla.getValueAt(tabla.getSelectedRow(), 3));
+         contenido += "\n\nPESO:\n " + String.valueOf(tabla.getValueAt(tabla.getSelectedRow(), 4));
+
+        JTextArea t = new JTextArea(20, 60);
+        t.setText(contenido);
+        t.setEditable(false);
+        t.setLineWrap(true);
+        t.setFocusable(false);
+        t.setAutoscrolls(true);
+        t.setMargin(new Insets(10, 10, 10, 10));
+
+        JOptionPane.showMessageDialog(this, new JScrollPane(t), "INFORME", 1);
+
+    }
 }

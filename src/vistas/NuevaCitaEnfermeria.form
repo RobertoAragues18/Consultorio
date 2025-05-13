@@ -61,7 +61,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="32767" attributes="0"/>
-                  <Component id="botonRegistrar22" min="-2" pref="90" max="-2" attributes="0"/>
+                  <Component id="botonRegistrar" min="-2" pref="90" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="251" max="-2" attributes="0"/>
               </Group>
               <Group type="102" attributes="0">
@@ -75,16 +75,16 @@
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="campoNomApe22" alignment="0" min="-2" pref="245" max="-2" attributes="0"/>
-                              <Component id="comboHora22" alignment="0" min="-2" pref="128" max="-2" attributes="0"/>
-                              <Component id="dateFecha22" alignment="0" min="-2" pref="161" max="-2" attributes="0"/>
+                              <Component id="campoNomApe" alignment="0" min="-2" pref="245" max="-2" attributes="0"/>
+                              <Component id="comboHora" alignment="0" min="-2" pref="128" max="-2" attributes="0"/>
+                              <Component id="dateFecha" alignment="0" min="-2" pref="161" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="213" max="-2" attributes="0"/>
                           <Component id="jLabel91" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="campoDni22" min="-2" pref="128" max="-2" attributes="0"/>
+                          <Component id="campoDni" min="-2" pref="128" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace pref="105" max="32767" attributes="0"/>
@@ -97,25 +97,25 @@
                   <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel91" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="campoDni22" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="campoDni" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel92" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="campoNomApe22" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="campoNomApe" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="52" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jLabel93" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="dateFecha22" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="dateFecha" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel94" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="comboHora22" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="comboHora" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
-                  <Component id="botonRegistrar22" min="-2" pref="31" max="-2" attributes="0"/>
+                  <Component id="botonRegistrar" min="-2" pref="31" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -130,12 +130,12 @@
             <Property name="text" type="java.lang.String" value="DNI"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="campoDni22">
+        <Component class="javax.swing.JTextField" name="campoDni">
           <Properties>
             <Property name="editable" type="boolean" value="false"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="botonRegistrar22">
+        <Component class="javax.swing.JButton" name="botonRegistrar">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="66" green="66" red="0" type="rgb"/>
@@ -145,6 +145,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Registrar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonRegistrarActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel92">
           <Properties>
@@ -154,7 +157,7 @@
             <Property name="text" type="java.lang.String" value="Nombre y apellidos"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="campoNomApe22">
+        <Component class="javax.swing.JTextField" name="campoNomApe">
           <Properties>
             <Property name="editable" type="boolean" value="false"/>
           </Properties>
@@ -175,9 +178,9 @@
             <Property name="text" type="java.lang.String" value="Hora"/>
           </Properties>
         </Component>
-        <Component class="com.toedter.calendar.JDateChooser" name="dateFecha22">
+        <Component class="com.toedter.calendar.JDateChooser" name="dateFecha">
         </Component>
-        <Component class="javax.swing.JComboBox" name="comboHora22">
+        <Component class="javax.swing.JComboBox" name="comboHora">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="4">

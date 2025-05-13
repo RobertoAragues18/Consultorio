@@ -120,9 +120,9 @@
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jLabel18" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
-                          <Component id="campoDni3" min="-2" pref="128" max="-2" attributes="0"/>
+                          <Component id="campoDni" min="-2" pref="128" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
-                          <Component id="botonBuscarPaciente3" min="-2" pref="178" max="-2" attributes="0"/>
+                          <Component id="botonBuscarPaciente" min="-2" pref="178" max="-2" attributes="0"/>
                       </Group>
                       <Component id="jScrollPane1" alignment="1" min="-2" pref="1108" max="-2" attributes="0"/>
                   </Group>
@@ -149,8 +149,8 @@
                   <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel18" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="campoDni3" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="botonBuscarPaciente3" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="campoDni" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="botonBuscarPaciente" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jPanel9" min="-2" max="-2" attributes="0"/>
@@ -174,9 +174,9 @@
             <Property name="text" type="java.lang.String" value="DNI PACIENTE"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="campoDni3">
+        <Component class="javax.swing.JTextField" name="campoDni">
         </Component>
-        <Component class="javax.swing.JButton" name="botonBuscarPaciente3">
+        <Component class="javax.swing.JButton" name="botonBuscarPaciente">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" red="0" type="rgb"/>
@@ -186,6 +186,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="BUSCAR PACIENTE"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonBuscarPacienteActionPerformed"/>
+          </Events>
         </Component>
         <Container class="javax.swing.JPanel" name="jPanel9">
           <Properties>
@@ -216,27 +219,27 @@
                               <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
                               <Component id="jLabel19" min="-2" pref="54" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="campoNombre3" min="-2" pref="144" max="-2" attributes="0"/>
+                              <Component id="campoNombre" min="-2" pref="144" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="jLabel20" min="-2" pref="54" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="campoApellidos3" min="-2" pref="167" max="-2" attributes="0"/>
+                              <Component id="campoApellidos" min="-2" pref="167" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="jLabel21" min="-2" pref="54" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="campoTelefono3" min="-2" pref="134" max="-2" attributes="0"/>
+                              <Component id="campoTelefono" min="-2" pref="134" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="318" max="-2" attributes="0"/>
-                              <Component id="botonInforme3" min="-2" max="-2" attributes="0"/>
+                              <Component id="botonInforme" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="185" max="-2" attributes="0"/>
-                              <Component id="botonCita3" min="-2" max="-2" attributes="0"/>
+                              <Component id="botonCita" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                       <Component id="jLabel22" min="-2" pref="54" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="campoEmail3" min="-2" pref="226" max="-2" attributes="0"/>
+                      <Component id="campoEmail" min="-2" pref="226" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -247,18 +250,18 @@
                       <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel19" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="campoNombre3" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="campoNombre" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel20" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel21" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="campoTelefono3" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="campoTelefono" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel22" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="campoEmail3" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="campoApellidos3" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="campoEmail" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="campoApellidos" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="35" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="botonCita3" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="botonInforme3" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="botonCita" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="botonInforme" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                   </Group>
@@ -274,7 +277,7 @@
                 <Property name="text" type="java.lang.String" value="Nombre"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="campoNombre3">
+            <Component class="javax.swing.JTextField" name="campoNombre">
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel20">
               <Properties>
@@ -284,7 +287,7 @@
                 <Property name="text" type="java.lang.String" value="Apellidos"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="campoApellidos3">
+            <Component class="javax.swing.JTextField" name="campoApellidos">
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel21">
               <Properties>
@@ -294,7 +297,7 @@
                 <Property name="text" type="java.lang.String" value="Tel&#xe9;fono"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="campoTelefono3">
+            <Component class="javax.swing.JTextField" name="campoTelefono">
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel22">
               <Properties>
@@ -304,17 +307,23 @@
                 <Property name="text" type="java.lang.String" value="Email"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="campoEmail3">
+            <Component class="javax.swing.JTextField" name="campoEmail">
             </Component>
-            <Component class="javax.swing.JButton" name="botonInforme3">
+            <Component class="javax.swing.JButton" name="botonInforme">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Nuevo Informe"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonInformeActionPerformed"/>
+              </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="botonCita3">
+            <Component class="javax.swing.JButton" name="botonCita">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Nueva Cita"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonCitaActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -344,6 +353,9 @@
                   </Table>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tablaMouseClicked"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -351,6 +363,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Actualizar tabla"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonActualizarTablaActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

@@ -4,6 +4,12 @@
  */
 package vistas;
 
+import bbdd.Conexion;
+import java.util.Date;
+import javax.swing.JOptionPane;
+import modelo.ConsultaEnfermeria;
+import utilidades.Utilidades;
+
 /**
  *
  * @author rober
@@ -16,6 +22,7 @@ public class NuevaConsultaEnfermeria extends javax.swing.JDialog {
     public NuevaConsultaEnfermeria(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        campoDni.setText(Enfermeria.dni);
     }
 
     /**
@@ -332,4 +339,41 @@ public class NuevaConsultaEnfermeria extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     // End of variables declaration//GEN-END:variables
+    int maxima;
+    int minima;
+    int glucosa;
+    int peso;
+    Date fecha = new Date();
+    int colegiado;
+
+    public void registar() {
+
+        if (!Utilidades.campoVacio(campoMinima)) {
+            JOptionPane.showMessageDialog(this, "campo obligatorio");
+        } else if (!Utilidades.campoVacio(campoMaxima)) {
+            JOptionPane.showMessageDialog(this, "campo abligatorio");
+        } else if (!Utilidades.campoVacio(campoPeso)) {
+            JOptionPane.showMessageDialog(this, "campo obligatorio");
+        } else if (!Utilidades.campoVacio(campoGlucosa)) {
+
+        } else {
+            String dni = campoDni.getText();
+            maxima = Integer.parseInt(campoMaxima.getText());
+            minima = Integer.parseInt(campoMinima.getText());
+            glucosa = Integer.parseInt(campoGlucosa.getText());
+            peso = Integer.parseInt(campoPeso.getText());
+            colegiado = Integer.parseInt(Login.datosPersona[1]);
+
+            ConsultaEnfermeria cg = new ConsultaEnfermeria(dni, fecha, maxima, minima, glucosa, peso, colegiado);
+            Conexion.conexion();
+
+            if (Conexion.registrarConsultaEnfermeria(cg)) {
+                JOptionPane.showMessageDialog(this, "Registro realizado correctamente");
+            } else {
+                JOptionPane.showMessageDialog(this, "Error en la acción de registro. Inténtelo más tarde o póngase en contacto con el administrador del sistema");
+            }
+            Conexion.cerrarConexion();
+        }
+
+    }
 }

@@ -13,17 +13,19 @@ import java.util.Date;
 public class ConsultaEnfermeria {
     private String dniPaciente;
     private Date fechaConsulta;
-    private double peso;
+    private double maxima, minima;
     private int glucosa;
+    private double peso;
     private double temperatura;
     private int codigoFacultativo;
 
-    public ConsultaEnfermeria(String dniPaciente, Date fechaConsulta, double peso, int glucosa, double temperatura, int codigoFacultativo) {
+    public ConsultaEnfermeria(String dniPaciente, Date fechaConsulta, double maxima, double minima, int glucosa, double peso, int codigoFacultativo) {
         this.dniPaciente = dniPaciente;
         this.fechaConsulta = fechaConsulta;
-        this.peso = peso;
+        this.maxima = maxima;
+        this.minima = minima;
         this.glucosa = glucosa;
-        this.temperatura = temperatura;
+        this.peso = peso;
         this.codigoFacultativo = codigoFacultativo;
     }
 
@@ -43,12 +45,20 @@ public class ConsultaEnfermeria {
         this.fechaConsulta = fechaConsulta;
     }
 
-    public double getPeso() {
-        return peso;
+    public double getMaxima() {
+        return maxima;
     }
 
-    public void setPeso(double peso) {
-        this.peso = peso;
+    public void setMaxima(double maxima) {
+        this.maxima = maxima;
+    }
+
+    public double getMinima() {
+        return minima;
+    }
+
+    public void setMinima(double minima) {
+        this.minima = minima;
     }
 
     public int getGlucosa() {
@@ -59,12 +69,12 @@ public class ConsultaEnfermeria {
         this.glucosa = glucosa;
     }
 
-    public double getTemperatura() {
-        return temperatura;
+    public double getPeso() {
+        return peso;
     }
 
-    public void setTemperatura(double temperatura) {
-        this.temperatura = temperatura;
+    public void setPeso(double peso) {
+        this.peso = peso;
     }
 
     public int getCodigoFacultativo() {
@@ -74,6 +84,6 @@ public class ConsultaEnfermeria {
     public void setCodigoFacultativo(int codigoFacultativo) {
         this.codigoFacultativo = codigoFacultativo;
     }
-    
+
     
 }

@@ -6,7 +6,11 @@ package vistas;
 
 import bbdd.Conexion;
 import java.awt.Color;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import utilidades.Encriptado;
 import utilidades.Utilidades;
 
 /**
@@ -133,19 +137,12 @@ public class Login extends javax.swing.JFrame {
 
     private void botonEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEntrarActionPerformed
         // TODO add your handling code here:
-        if (Utilidades.campoVacio(campoUsuario)) {
-            Utilidades.lanzaAlertaCampoVacio(rootPane, "El campo " + campoUsuario.getName() + " esta vacío");
-            campoUsuario.setBackground(new Color(255, 200, 200));
-            campoPass.setBackground(Color.WHITE);
-        } else if (Utilidades.campoVacio(campoPass)) {
-            Utilidades.lanzaAlertaCampoVacio(rootPane, "El campo " + campoPass.getName() + " esta vacío");
-            campoPass.setBackground(new Color(255, 200, 200));
-            campoUsuario.setBackground(Color.WHITE);
-        } else {
-            campoPass.setBackground(Color.WHITE);
-            campoUsuario.setBackground(Color.WHITE);
-            entrar();
+        try {
+            acceso();
+        } catch (SQLException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
+        this.dispose();
     }//GEN-LAST:event_botonEntrarActionPerformed
 
     /**
@@ -194,23 +191,30 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
     
-    public static String miusuario;
-    public static String mipass;
-    
-    public void entrar(){
-        miusuario = campoUsuario.getText();
-        mipass = utilidades.Encriptado.encriptar(new String(campoPass.getPassword()));
+String us;
+    String pass;
+    public static String[] datosPersona;
+
+    public void acceso() throws SQLException {
+        us = campoUsuario.getText();
+        pass = new String(campoPass.getPassword());
+        String passencript = null;
+        try {
+            passencript = Encriptado.encriptar(pass);
+        } catch (Exception ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         Conexion.conexion();
-        
-        if(Conexion.acceder(miusuario, mipass)){
-            MenuPrincipal mp = new MenuPrincipal();
-            mp.setVisible(true);
-            this.dispose();
-        }else{
-            JOptionPane.showMessageDialog(this, "Usuario o contraseña erróneos. Inténtelo de nuevo", "Error en el login", JOptionPane.ERROR_MESSAGE);
+        if (Conexion.acceder(us, passencript)) {
+            datosPersona = Conexion.recuperaDatosUser(us);
+            Conexion.cerrarConexion();
+            MenuPrincipal p = new MenuPrincipal();
+            p.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Usuario o contraseña erroneos. Intentelo de nuevo");
             campoUsuario.setText("");
             campoPass.setText("");
         }
-        Conexion.cerrarConexion();
     }
 }

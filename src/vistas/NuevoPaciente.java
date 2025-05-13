@@ -4,6 +4,12 @@
  */
 package vistas;
 
+import bbdd.Conexion;
+import java.util.Date;
+import javax.swing.JOptionPane;
+import modelo.Paciente;
+import utilidades.Utilidades;
+
 /**
  *
  * @author rober
@@ -16,6 +22,15 @@ public class NuevoPaciente extends javax.swing.JDialog {
     public NuevoPaciente(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        if ("MEDICO".equals(Login.datosPersona[2])) {
+            campoDni.setText(Medico.dni);
+        } else {
+            campoDni.setText(Enfermeria.dni);
+        }
+
+        Conexion.conexion();
+        Conexion.cargaComboCp(comboCP);
+        Conexion.cerrarConexion();
     }
 
     /**
@@ -147,8 +162,6 @@ public class NuevoPaciente extends javax.swing.JDialog {
 
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
         jLabel12.setText("Consumo de alcohol");
-
-        comboCP.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         GrupoBotonSexo.add(Mujer);
         Mujer.setForeground(new java.awt.Color(255, 255, 255));
@@ -345,6 +358,11 @@ public class NuevoPaciente extends javax.swing.JDialog {
         botonRegistrar.setBackground(new java.awt.Color(0, 102, 102));
         botonRegistrar.setForeground(new java.awt.Color(255, 255, 255));
         botonRegistrar.setText("REGISTRAR");
+        botonRegistrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonRegistrarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -394,6 +412,11 @@ public class NuevoPaciente extends javax.swing.JDialog {
     private void campoApellidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoApellidosActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_campoApellidosActionPerformed
+
+    private void botonRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarActionPerformed
+        // TODO add your handling code here:
+        registrarNuevoPaciente();
+    }//GEN-LAST:event_botonRegistrarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -480,4 +503,75 @@ public class NuevoPaciente extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
+    String nombre, apellidos, email;
+    String hombre, mujer, otro;
+    String no, si, ocasional, habitual, nulo;
+    String sexo, taba, consumoAlcohol, antecedentes, alergias;
+    int tele, cp;
+    Date FechaNac;
+
+    void registrarNuevoPaciente() {
+
+        if (!Utilidades.campoVacio(campoNombre)) {
+            Utilidades.lanzaAlertaCampoVacio(campoNombre);
+        } else if (!Utilidades.campoVacio(campoApellidos)) {
+            Utilidades.lanzaAlertaCampoVacio(campoApellidos);
+        } else if (fechaNacimiento.getDate() == null) {
+            JOptionPane.showMessageDialog(this, "Debes seleccionar una fecha por favor");
+        } else if (!Utilidades.campoVacio(campoTelefono)) {
+            Utilidades.LazarAlertaCampoNumerico(this, campoTelefono);
+        } else if (!Utilidades.campoVacio(campoEmail)) {
+            Utilidades.lanzaAlertaCampoVacio(campoEmail);
+        } else if (Utilidades.comboNoSeleccionado(comboCP)) {
+            JOptionPane.showMessageDialog(this, "Debes seleccionar un codigo postal valido");
+        } else if (!Utilidades.areavacia(campoAntecedentes)) {
+            JOptionPane.showMessageDialog(this, "Debes esribir algo en antecedentes medicos porfavor");
+        } else if (!Utilidades.areavacia(campoPersonal)) {
+            JOptionPane.showMessageDialog(this, "Debes seleccionar un codigo postal valido");
+        } else {
+
+            nombre = campoNombre.getText();
+            apellidos = campoApellidos.getText();
+            FechaNac = fechaNacimiento.getDate();
+            tele = Integer.parseInt(campoTelefono.getText());
+            email = campoEmail.getText();
+            cp = Integer.parseInt(comboCP.getSelectedItem().toString());
+            antecedentes = campoAntecedentes.getText();
+            alergias = campoPersonal.getText();
+
+            if (Mujer.isSelected()) {
+                sexo = "M";
+            } else if (Hombre.isSelected()) {
+                sexo = "H";
+            } else if (Otros.isSelected()) {
+                sexo = "OTROS";
+            }
+            if (NO.isSelected()) {
+                taba = "NO";
+            } else if (SI.isSelected()) {
+                taba = "SI";
+            }
+
+            if (Ocasional.isSelected()) {
+                consumoAlcohol = "Ocasional";
+            } else if (Habitual.isSelected()) {
+                consumoAlcohol = "Habitual";
+            } else if (Nulo.isSelected()) {
+                consumoAlcohol = "Nulo";
+            }
+
+            Paciente paciente = new Paciente(campoDni.getText(), nombre, apellidos, FechaNac, tele, email, cp, sexo, taba, consumoAlcohol, antecedentes, alergias, FechaNac);
+            Conexion.conexion();
+            if (Conexion.registrarPaciente(paciente)) {
+
+                JOptionPane.showMessageDialog(this, "Registro realizado correctamente.");
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Error al realizar el registro, intentalo más tarde.");
+            }
+            Conexion.cerrarConexion();
+
+        }
+
+    }
 }

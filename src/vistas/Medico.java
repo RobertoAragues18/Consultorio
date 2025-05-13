@@ -4,12 +4,33 @@
  */
 package vistas;
 
+import bbdd.Conexion;
+import java.awt.Insets;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
+import modelo.Paciente;
+import utilidades.Utilidades;
+
 /**
  *
  * @author rober
  */
 public class Medico extends javax.swing.JDialog {
+    JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+    
+    public static String email;
+    public static String dni;
 
+    public static String nom;
+    public static String ape;
+
+    DefaultTableModel mod;
     /**
      * Creates new form Medico
      */
@@ -32,19 +53,19 @@ public class Medico extends javax.swing.JDialog {
         jLabel8 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         jLabel18 = new javax.swing.JLabel();
-        campoDni3 = new javax.swing.JTextField();
-        botonBuscarPaciente3 = new javax.swing.JButton();
+        campoDni = new javax.swing.JTextField();
+        botonBuscarPaciente = new javax.swing.JButton();
         jPanel9 = new javax.swing.JPanel();
         jLabel19 = new javax.swing.JLabel();
-        campoNombre3 = new javax.swing.JTextField();
+        campoNombre = new javax.swing.JTextField();
         jLabel20 = new javax.swing.JLabel();
-        campoApellidos3 = new javax.swing.JTextField();
+        campoApellidos = new javax.swing.JTextField();
         jLabel21 = new javax.swing.JLabel();
-        campoTelefono3 = new javax.swing.JTextField();
+        campoTelefono = new javax.swing.JTextField();
         jLabel22 = new javax.swing.JLabel();
-        campoEmail3 = new javax.swing.JTextField();
-        botonInforme3 = new javax.swing.JButton();
-        botonCita3 = new javax.swing.JButton();
+        campoEmail = new javax.swing.JTextField();
+        botonInforme = new javax.swing.JButton();
+        botonCita = new javax.swing.JButton();
         jLabel23 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
@@ -89,9 +110,14 @@ public class Medico extends javax.swing.JDialog {
         jLabel18.setForeground(new java.awt.Color(255, 255, 255));
         jLabel18.setText("DNI PACIENTE");
 
-        botonBuscarPaciente3.setBackground(new java.awt.Color(0, 0, 0));
-        botonBuscarPaciente3.setForeground(new java.awt.Color(255, 255, 255));
-        botonBuscarPaciente3.setText("BUSCAR PACIENTE");
+        botonBuscarPaciente.setBackground(new java.awt.Color(0, 0, 0));
+        botonBuscarPaciente.setForeground(new java.awt.Color(255, 255, 255));
+        botonBuscarPaciente.setText("BUSCAR PACIENTE");
+        botonBuscarPaciente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonBuscarPacienteActionPerformed(evt);
+            }
+        });
 
         jPanel9.setBackground(new java.awt.Color(255, 255, 255));
         jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 1, true), "PACIENTE", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(255, 255, 255))); // NOI18N
@@ -109,9 +135,19 @@ public class Medico extends javax.swing.JDialog {
         jLabel22.setForeground(new java.awt.Color(255, 255, 255));
         jLabel22.setText("Email");
 
-        botonInforme3.setText("Nuevo Informe");
+        botonInforme.setText("Nuevo Informe");
+        botonInforme.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonInformeActionPerformed(evt);
+            }
+        });
 
-        botonCita3.setText("Nueva Cita");
+        botonCita.setText("Nueva Cita");
+        botonCita.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCitaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -123,24 +159,24 @@ public class Medico extends javax.swing.JDialog {
                         .addGap(45, 45, 45)
                         .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(campoNombre3, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(campoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(campoApellidos3, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(campoApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(campoTelefono3, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(campoTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel9Layout.createSequentialGroup()
                         .addGap(318, 318, 318)
-                        .addComponent(botonInforme3)
+                        .addComponent(botonInforme)
                         .addGap(185, 185, 185)
-                        .addComponent(botonCita3)))
+                        .addComponent(botonCita)))
                 .addGap(30, 30, 30)
                 .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(campoEmail3, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(campoEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel9Layout.setVerticalGroup(
@@ -149,17 +185,17 @@ public class Medico extends javax.swing.JDialog {
                 .addGap(46, 46, 46)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel19)
-                    .addComponent(campoNombre3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(campoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel20)
                     .addComponent(jLabel21)
-                    .addComponent(campoTelefono3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(campoTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel22)
-                    .addComponent(campoEmail3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(campoApellidos3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(campoEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(campoApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(botonCita3)
-                    .addComponent(botonInforme3))
+                    .addComponent(botonCita)
+                    .addComponent(botonInforme))
                 .addGap(31, 31, 31))
         );
 
@@ -174,9 +210,19 @@ public class Medico extends javax.swing.JDialog {
                 "FECHA", "DIAGNÓSTICO", "TRATAMIENTO", "OBSERVACIONES"
             }
         ));
+        tabla.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tabla);
 
         botonActualizarTabla.setText("Actualizar tabla");
+        botonActualizarTabla.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonActualizarTablaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -189,9 +235,9 @@ public class Medico extends javax.swing.JDialog {
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addComponent(jLabel18)
                         .addGap(38, 38, 38)
-                        .addComponent(campoDni3, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(campoDni, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(43, 43, 43)
-                        .addComponent(botonBuscarPaciente3, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(botonBuscarPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 1108, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28))
             .addGroup(jPanel8Layout.createSequentialGroup()
@@ -210,8 +256,8 @@ public class Medico extends javax.swing.JDialog {
                 .addGap(41, 41, 41)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel18)
-                    .addComponent(campoDni3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(botonBuscarPaciente3))
+                    .addComponent(campoDni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botonBuscarPaciente))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
@@ -242,6 +288,75 @@ public class Medico extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void botonBuscarPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarPacienteActionPerformed
+        // TODO add your handling code here:
+        Conexion.conexion();
+        dni = campoDni.getText();
+        nom = campoNombre.getText();
+        ape = campoApellidos.getText();
+
+        if (!Utilidades.campoVacio(campoDni)) {
+            Utilidades.lanzaAlertaCampoVacio(campoDni);
+        } else if (!Utilidades.confirmaacionDNI(campoDni)) {
+            JOptionPane.showMessageDialog(this, "El DNI no es válido, introduzca uno válido por favor");
+
+        } else {
+            try {
+                Paciente paciente = Conexion.recuperaDatosPaciente(campoDni.getText());
+                if (paciente != null) {
+                    dni = campoDni.getText();
+                    nom = campoNombre.getText();
+                    ape = campoApellidos.getText();
+                    System.out.println(nom + ape);
+                    campoNombre.setText(paciente.getNombre());
+                    campoApellidos.setText(paciente.getApellidos());
+                    campoTelefono.setText(String.valueOf((char) paciente.getTelefono()));
+                    campoEmail.setText(paciente.getEmail());
+                    botonActualizarTabla.setEnabled(rootPaneCheckingEnabled);
+                    mod = (DefaultTableModel) tabla.getModel();
+                    botonInforme.setEnabled(rootPaneCheckingEnabled);
+                    botonCita.setEnabled(rootPaneCheckingEnabled);
+                    Conexion.cargaTablaConsultasMedicas(mod, dni);
+                } else {
+                    JOptionPane.showMessageDialog(this, "No se encontró un paciente con el DNI proporcionado.");
+                    NuevoPaciente N = new NuevoPaciente(frame, rootPaneCheckingEnabled);
+                    N.setVisible(true);
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(Medico.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            dni = campoDni.getText();
+            nom = campoNombre.getText();
+            ape = campoApellidos.getText();
+            email = campoEmail.getText();
+        }
+    }//GEN-LAST:event_botonBuscarPacienteActionPerformed
+
+    private void botonActualizarTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonActualizarTablaActionPerformed
+        DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+        modelo.setRowCount(0);
+        Conexion.conexion();
+        Conexion.cargaTablaConsultasMedicas(mod, dni);
+        Conexion.cerrarConexion();
+    }//GEN-LAST:event_botonActualizarTablaActionPerformed
+
+    private void botonInformeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonInformeActionPerformed
+        // TODO add your handling code here:
+        NuevaConsultaMedica ncm = new NuevaConsultaMedica(frame, true);
+        ncm.setVisible(true);
+    }//GEN-LAST:event_botonInformeActionPerformed
+
+    private void botonCitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCitaActionPerformed
+        // TODO add your handling code here:
+        NuevaCita nc = new NuevaCita(frame, true);
+        nc.setVisible(true);
+    }//GEN-LAST:event_botonCitaActionPerformed
+
+    private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
+        // TODO add your handling code here:
+        datosFila();
+    }//GEN-LAST:event_tablaMouseClicked
 
     /**
      * @param args the command line arguments
@@ -288,70 +403,43 @@ public class Medico extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonActualizarTabla;
     private javax.swing.JButton botonBuscarPaciente;
-    private javax.swing.JButton botonBuscarPaciente1;
-    private javax.swing.JButton botonBuscarPaciente2;
-    private javax.swing.JButton botonBuscarPaciente3;
     private javax.swing.JButton botonCita;
-    private javax.swing.JButton botonCita1;
-    private javax.swing.JButton botonCita2;
-    private javax.swing.JButton botonCita3;
     private javax.swing.JButton botonInforme;
-    private javax.swing.JButton botonInforme1;
-    private javax.swing.JButton botonInforme2;
-    private javax.swing.JButton botonInforme3;
     private javax.swing.JTextField campoApellidos;
-    private javax.swing.JTextField campoApellidos1;
-    private javax.swing.JTextField campoApellidos2;
-    private javax.swing.JTextField campoApellidos3;
     private javax.swing.JTextField campoDni;
-    private javax.swing.JTextField campoDni1;
-    private javax.swing.JTextField campoDni2;
-    private javax.swing.JTextField campoDni3;
     private javax.swing.JTextField campoEmail;
-    private javax.swing.JTextField campoEmail1;
-    private javax.swing.JTextField campoEmail2;
-    private javax.swing.JTextField campoEmail3;
     private javax.swing.JTextField campoNombre;
-    private javax.swing.JTextField campoNombre1;
-    private javax.swing.JTextField campoNombre2;
-    private javax.swing.JTextField campoNombre3;
     private javax.swing.JTextField campoTelefono;
-    private javax.swing.JTextField campoTelefono1;
-    private javax.swing.JTextField campoTelefono2;
-    private javax.swing.JTextField campoTelefono3;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tabla;
     // End of variables declaration//GEN-END:variables
+     private void datosFila() {
+
+        String contenido = "FECHA DE CONSULTA: " + String.valueOf(tabla.getValueAt(tabla.getSelectedRow(), 0));
+        contenido += "\n\nDIAGNÓSTICO:\n " + String.valueOf(tabla.getValueAt(tabla.getSelectedRow(), 1));
+        contenido += "\n\nTRATAMIENTO:\n " + String.valueOf(tabla.getValueAt(tabla.getSelectedRow(), 2));
+        contenido += "\n\nOBSERVACIONES:\n " + String.valueOf(tabla.getValueAt(tabla.getSelectedRow(), 3));
+
+        JTextArea t = new JTextArea(20, 60);
+        t.setText(contenido);
+        t.setEditable(false);
+        t.setLineWrap(true);
+        t.setFocusable(false);
+        t.setAutoscrolls(true);
+        t.setMargin(new Insets(10, 10, 10, 10));
+
+        JOptionPane.showMessageDialog(this, new JScrollPane(t), "INFORME", 1);
+
+    }
 }

@@ -17,25 +17,41 @@ public class Paciente {
     private Date fechaNacimiento;
     private int telefono;
     private String email;
-    private String direccion;
-    private String tipoSeguro;
-    private String nseguro;
+    private int cp;
+    private String sexo;
+    private String tabaquismo;
+    private String consumoAlcohol;
     private String antecedentesSalud;
-    private String tratamientoGeneral;
+    private String datosSaludGeneral;
     private Date fechaRegistro;
 
-    public Paciente(String dni, String nombre, String apellidos, Date fechaNacimiento, int telefono, String email, String direccion, String tipoSeguro, String nseguro, String antecedentesSalud, String tratamientoGeneral, Date fechaRegistro) {
+    public Paciente(String nombre, String apellidos, int telefono, String email) {
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.telefono = telefono;
+        this.email = email;
+    }
+
+    public Paciente(String nombre, String apellidos, int telefono, int cp) {
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.telefono = telefono;
+        this.cp = cp;
+    }
+
+    public Paciente(String dni, String nombre, String apellidos, Date fechaNacimiento, int telefono, String email, int cp, String sexo, String tabaquismo, String consumoAlcohol, String antecedentesSalud, String datosSaludGeneral, Date fechaRegistro) {
         this.dni = dni;
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.fechaNacimiento = fechaNacimiento;
         this.telefono = telefono;
         this.email = email;
-        this.direccion = direccion;
-        this.tipoSeguro = tipoSeguro;
-        this.nseguro = nseguro;
+        this.cp = cp;
+        this.sexo = sexo;
+        this.tabaquismo = tabaquismo;
+        this.consumoAlcohol = consumoAlcohol;
         this.antecedentesSalud = antecedentesSalud;
-        this.tratamientoGeneral = tratamientoGeneral;
+        this.datosSaludGeneral = datosSaludGeneral;
         this.fechaRegistro = fechaRegistro;
     }
 
@@ -87,28 +103,36 @@ public class Paciente {
         this.email = email;
     }
 
-    public String getDireccion() {
-        return direccion;
+    public int getCp() {
+        return cp;
     }
 
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
+    public void setCp(int cp) {
+        this.cp = cp;
     }
 
-    public String getTipoSeguro() {
-        return tipoSeguro;
+    public String getSexo() {
+        return sexo;
     }
 
-    public void setTipoSeguro(String tipoSeguro) {
-        this.tipoSeguro = tipoSeguro;
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
     }
 
-    public String getNseguro() {
-        return nseguro;
+    public String getTabaquismo() {
+        return tabaquismo;
     }
 
-    public void setNseguro(String nseguro) {
-        this.nseguro = nseguro;
+    public void setTabaquismo(String tabaquismo) {
+        this.tabaquismo = tabaquismo;
+    }
+
+    public String getConsumoAlcohol() {
+        return consumoAlcohol;
+    }
+
+    public void setConsumoAlcohol(String consumoAlcohol) {
+        this.consumoAlcohol = consumoAlcohol;
     }
 
     public String getAntecedentesSalud() {
@@ -119,12 +143,12 @@ public class Paciente {
         this.antecedentesSalud = antecedentesSalud;
     }
 
-    public String getTratamientoGeneral() {
-        return tratamientoGeneral;
+    public String getDatosSaludGeneral() {
+        return datosSaludGeneral;
     }
 
-    public void setTratamientoGeneral(String tratamientoGeneral) {
-        this.tratamientoGeneral = tratamientoGeneral;
+    public void setDatosSaludGeneral(String datosSaludGeneral) {
+        this.datosSaludGeneral = datosSaludGeneral;
     }
 
     public Date getFechaRegistro() {
@@ -134,6 +158,7 @@ public class Paciente {
     public void setFechaRegistro(Date fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
     }
+
     
     
 }

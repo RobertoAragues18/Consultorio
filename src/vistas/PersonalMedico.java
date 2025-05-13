@@ -4,6 +4,12 @@
  */
 package vistas;
 
+import bbdd.Conexion;
+import javax.swing.JOptionPane;
+import static javax.swing.WindowConstants.HIDE_ON_CLOSE;
+import modelo.Personal;
+import utilidades.Utilidades;
+
 /**
  *
  * @author rober
@@ -41,7 +47,7 @@ public class PersonalMedico extends javax.swing.JDialog {
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         campoApellidos = new javax.swing.JTextField();
-        campoDni = new javax.swing.JTextField();
+        campoColegiado = new javax.swing.JTextField();
         campoTelefono = new javax.swing.JTextField();
         campoUsuario = new javax.swing.JTextField();
         campoPass = new javax.swing.JPasswordField();
@@ -83,7 +89,7 @@ public class PersonalMedico extends javax.swing.JDialog {
         jPanel2.setBackground(new java.awt.Color(0, 204, 204));
 
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel9.setText("DNI");
+        jLabel9.setText("Nº de colegiado");
 
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("Nombre");
@@ -106,6 +112,11 @@ public class PersonalMedico extends javax.swing.JDialog {
         jLabel16.setText("Tipo");
 
         botonRegistrar.setText("REGISTRAR");
+        botonRegistrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonRegistrarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -118,15 +129,15 @@ public class PersonalMedico extends javax.swing.JDialog {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(49, 49, 49)
+                            .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(37, 37, 37)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(campoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(campoDni, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(campoColegiado, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(campoApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(campoTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -144,7 +155,7 @@ public class PersonalMedico extends javax.swing.JDialog {
                 .addGap(46, 46, 46)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(campoDni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(campoColegiado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(23, 23, 23)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
@@ -192,6 +203,11 @@ public class PersonalMedico extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void botonRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarActionPerformed
+        // TODO add your handling code here:
+        registrarPersonal();
+    }//GEN-LAST:event_botonRegistrarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -237,7 +253,7 @@ public class PersonalMedico extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonRegistrar;
     private javax.swing.JTextField campoApellidos;
-    private javax.swing.JTextField campoDni;
+    private javax.swing.JTextField campoColegiado;
     private javax.swing.JTextField campoNombre;
     private javax.swing.JPasswordField campoPass;
     private javax.swing.JTextField campoTelefono;
@@ -255,4 +271,48 @@ public class PersonalMedico extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
+    String nom, ape, usua, cont, tipoP;
+    int num_cole, tele;
+
+    void registrarPersonal() {
+
+        if (!Utilidades.campoVacio(campoColegiado)) {
+            Utilidades.lanzaAlertaCampoVacio(campoColegiado);
+        } else if (!Utilidades.campoVacio(campoNombre)) {
+            Utilidades.lanzaAlertaCampoVacio(campoNombre);
+        } else if (!Utilidades.campoVacio(campoApellidos)) {
+            Utilidades.lanzaAlertaCampoVacio(campoApellidos);
+        } else if (!Utilidades.campoVacio(campoTelefono)) {
+            Utilidades.lanzaAlertaCampoVacio(campoTelefono);
+        } else if (!Utilidades.campoVacio(campoUsuario)) {
+            Utilidades.lanzaAlertaCampoVacio(campoUsuario);
+        } else if (!Utilidades.campoVacio(campoPass)) {
+            Utilidades.lanzaAlertaCampoVacio(campoPass);
+        } else if (Utilidades.comboNoSeleccionado(comboTipo)) {
+            JOptionPane.showMessageDialog(this, "Seleccione medico o enfermeria porfavor");
+        } else {
+
+            num_cole = Integer.parseInt(campoColegiado.getText());
+            nom = campoNombre.getText();
+            ape = campoApellidos.getText();
+            tele = Integer.parseInt(campoTelefono.getText());
+            tipoP = (String) comboTipo.getSelectedItem();
+            usua = campoUsuario.getText();
+            cont = new String(campoPass.getPassword());
+
+            Personal p = new Personal(num_cole, nom, ape, HIDE_ON_CLOSE, usua, cont, tipoP);
+
+            Conexion.conexion();
+
+            if (Conexion.registrarPersonal(p)) {
+
+                JOptionPane.showMessageDialog(this, "Registro realizado correctamente.");
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Error al realizar el registro, intentalo más tarde.");
+            }
+            Conexion.cerrarConexion();
+        }
+
+    }
 }
