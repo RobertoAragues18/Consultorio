@@ -11,9 +11,11 @@ import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import modelo.Cita;
+import modelo.Paciente;
 import utilidades.Encriptado;
 import utilidades.UtilidadEmail;
 import utilidades.Utilidades;
+import static vistas.Medico.dni;
 import static vistas.Medico.email;
 
 /**
@@ -28,6 +30,8 @@ public class NuevaCita extends javax.swing.JDialog {
     public NuevaCita(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        campoDni.setText(Medico.dni);
+        campoNomApe.setText(Medico.nom + " " + Medico.ape);
     }
 
     /**
@@ -56,6 +60,7 @@ public class NuevaCita extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(600, 465));
         setMinimumSize(new java.awt.Dimension(600, 465));
+        setResizable(false);
         setSize(new java.awt.Dimension(600, 465));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -95,6 +100,7 @@ public class NuevaCita extends javax.swing.JDialog {
         jLabel1.setText("DNI");
 
         campoDni.setEditable(false);
+        campoDni.setName("DNI"); // NOI18N
 
         botonRegistrar.setBackground(new java.awt.Color(0, 102, 102));
         botonRegistrar.setForeground(new java.awt.Color(255, 255, 255));
@@ -109,6 +115,7 @@ public class NuevaCita extends javax.swing.JDialog {
         jLabel2.setText("Nombre y apellidos");
 
         campoNomApe.setEditable(false);
+        campoNomApe.setName("NOMBRE Y APELLIDOS"); // NOI18N
 
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Fecha");
@@ -116,7 +123,10 @@ public class NuevaCita extends javax.swing.JDialog {
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Hora");
 
-        comboHora.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Una semana", "Dos semanas", "Un mes" }));
+        dateFecha.setName("FECHA"); // NOI18N
+
+        comboHora.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "8.00", "8.30", "9.00", "9.30", "10.00", "10.30", "11.00", "11.30", "12.00", "12.30", "13.00" }));
+        comboHora.setName("HORA"); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -185,7 +195,10 @@ public class NuevaCita extends javax.swing.JDialog {
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        getAccessibleContext().setAccessibleDescription("");
+
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarActionPerformed
@@ -254,37 +267,27 @@ public class NuevaCita extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
-
-    Date fecha;
-    Double hora;
-
+    
     public void nuevaCita() throws Exception {
-
-        if (!Utilidades.campoVacio(campoDni)) {
-            Utilidades.lanzaAlertaCampoVacio(campoDni);
-        } else if (!Utilidades.campoVacio(campoNomApe)) {
-            Utilidades.lanzaAlertaCampoVacio(campoNomApe);
-        } else if (dateFecha.getDate() == null) {
+        if (dateFecha.getDate() == null) {
             JOptionPane.showMessageDialog(this, "Debes seleccionar una fecha por favor");
         } else if (Utilidades.comboNoSeleccionado(comboHora)) {
-            JOptionPane.showMessageDialog(this, "Debes seleccionar una hora por favor");
+            JOptionPane.showMessageDialog(this, "Seleccione una hora por favor");
         } else {
             
             String dni = Encriptado.encriptar(campoDni.getText());
             String nombre = Encriptado.encriptar(campoNomApe.getText());
-            hora = Double.parseDouble(comboHora.getSelectedItem().toString());
-            fecha = dateFecha.getDate();
+            double hora = Double.parseDouble(comboHora.getSelectedItem().toString());
+            Date fecha = dateFecha.getDate();
 
-            // Crear una nueva cita
-            Cita cita2 = new Cita(campoDni.getText(), campoNomApe.getText(), fecha, hora);
-            Cita cita = new Cita(dni, nombre, fecha, hora);
             Conexion.conexion();
+            Cita cita = new Cita(dni, nombre, fecha, hora);
 
-            if (Conexion.registrarCitaEnfermeria(cita)) {
+            if (Conexion.registrarCitaMedica(cita)) {
 
                 JOptionPane.showMessageDialog(this, "Registro realizado correctamente.");
-                UtilidadEmail.enviaMailHtml(cita2, email);
-
+                UtilidadEmail.enviaMailHtml(cita, Medico.email);
+                this.dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "Error al realizar el registro, intentalo más tarde.");
             }

@@ -17,6 +17,7 @@ import javax.swing.table.DefaultTableModel;
 import modelo.Paciente;
 import utilidades.Utilidades;
 
+
 /**
  *
  * @author rober
@@ -71,6 +72,7 @@ public class Enfermeria extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(1175, 650));
         setMinimumSize(new java.awt.Dimension(1175, 650));
+        setResizable(false);
         setSize(new java.awt.Dimension(1175, 650));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -107,6 +109,8 @@ public class Enfermeria extends javax.swing.JDialog {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("DNI PACIENTE");
 
+        campoDni.setName("DNI"); // NOI18N
+
         botonBuscarPaciente.setBackground(new java.awt.Color(0, 0, 0));
         botonBuscarPaciente.setForeground(new java.awt.Color(255, 255, 255));
         botonBuscarPaciente.setText("BUSCAR PACIENTE");
@@ -123,16 +127,29 @@ public class Enfermeria extends javax.swing.JDialog {
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Nombre");
 
+        campoNombre.setEnabled(false);
+        campoNombre.setName("NOMBRE"); // NOI18N
+
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Apellidos");
+
+        campoApellidos.setEnabled(false);
+        campoApellidos.setName("APELLIDOS"); // NOI18N
 
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Teléfono");
 
+        campoTelefono.setEnabled(false);
+        campoTelefono.setName("TELEFONO"); // NOI18N
+
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Email");
 
+        campoEmail.setEnabled(false);
+        campoEmail.setName("EMAIL"); // NOI18N
+
         botonInforme.setText("Nuevo Informe");
+        botonInforme.setEnabled(false);
         botonInforme.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonInformeActionPerformed(evt);
@@ -140,6 +157,7 @@ public class Enfermeria extends javax.swing.JDialog {
         });
 
         botonCita.setText("Nueva Cita");
+        botonCita.setEnabled(false);
         botonCita.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonCitaActionPerformed(evt);
@@ -204,9 +222,10 @@ public class Enfermeria extends javax.swing.JDialog {
 
             },
             new String [] {
-                "FECHA", "DIAGNÓSTICO", "TRATAMIENTO", "OBSERVACIONES"
+                "FECHA", "MÁXIMA", "MÍNIMA", "GLUCOSA", "PESO"
             }
         ));
+        tabla.setName(""); // NOI18N
         tabla.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tablaMouseClicked(evt);
@@ -282,6 +301,7 @@ public class Enfermeria extends javax.swing.JDialog {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonCitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCitaActionPerformed
@@ -301,15 +321,15 @@ public class Enfermeria extends javax.swing.JDialog {
         dni = campoDni.getText();
         Conexion.conexion();
 
-        if (Utilidades.campoVacio(campoDni)) {
+        if (!Utilidades.campoVacio(campoDni)) {
             Utilidades.lanzaAlertaCampoVacio(campoDni);
         } else if (!Utilidades.confirmaacionDNI(campoDni)) {
             JOptionPane.showMessageDialog(this, "El DNI no es válido, introduzca uno válido por favor");
-
+        } else if (!Utilidades.validacionLetraDni(dni)) {
+            JOptionPane.showMessageDialog(this, "La letra del DNI no es válida");
         } else {
-            
             try {
-                Paciente paciente = Conexion.recuperaDatosPaciente(campoDni.getText());
+                Paciente paciente = Conexion.recuperaDatosPaciente(dni);
                 if (paciente != null) {
                    
                    
@@ -317,11 +337,18 @@ public class Enfermeria extends javax.swing.JDialog {
                     campoApellidos.setText(paciente.getApellidos());
                     campoTelefono.setText(String.valueOf((char) paciente.getTelefono()));
                     campoEmail.setText(paciente.getEmail());
-                    botonActualizarTabla.setEnabled(rootPaneCheckingEnabled);
+                    
+                    nom = paciente.getNombre();
+                    ape = paciente.getApellidos();
+                    email = paciente.getEmail();
+                    
                     mod = (DefaultTableModel) tabla.getModel();
-                    botonCita.setEnabled(rootPaneCheckingEnabled);
-                    botonInforme.setEnabled(rootPaneCheckingEnabled);
+                    mod.setRowCount(0);
                     Conexion.cargarTablaConsultasEnfermeria(mod, dni);
+                    
+                    botonActualizarTabla.setEnabled(true);
+                    botonInforme.setEnabled(true);
+                    botonCita.setEnabled(true);;
                 } else {
                     JOptionPane.showMessageDialog(this, "No se encontró un paciente con el DNI proporcionado.");
                     NuevoPaciente N = new NuevoPaciente(frame, true);
@@ -329,12 +356,10 @@ public class Enfermeria extends javax.swing.JDialog {
                 }
             } catch (Exception ex) {
                 Logger.getLogger(Enfermeria.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                Conexion.cerrarConexion();
             }
-                    dni = campoDni.getText();
-                    nom = campoNombre.getText();
-                    ape = campoApellidos.getText();
-                    email = campoEmail.getText();
-        }             
+        }
     }//GEN-LAST:event_botonBuscarPacienteActionPerformed
 
     private void botonActualizarTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonActualizarTablaActionPerformed

@@ -16,7 +16,6 @@ public class ConsultaEnfermeria {
     private double maxima, minima;
     private int glucosa;
     private double peso;
-    private double temperatura;
     private int codigoFacultativo;
 
     public ConsultaEnfermeria(String dniPaciente, Date fechaConsulta, double maxima, double minima, int glucosa, double peso, int codigoFacultativo) {

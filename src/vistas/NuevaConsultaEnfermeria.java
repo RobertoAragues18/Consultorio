@@ -57,6 +57,8 @@ public class NuevaConsultaEnfermeria extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(750, 600));
         setMinimumSize(new java.awt.Dimension(750, 600));
+        setUndecorated(true);
+        setResizable(false);
         setSize(new java.awt.Dimension(750, 600));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -96,14 +98,25 @@ public class NuevaConsultaEnfermeria extends javax.swing.JDialog {
         jLabel1.setText("DNI PACIENTE");
 
         campoDni.setEditable(false);
+        campoDni.setName("DNI"); // NOI18N
 
         botonCancelar.setBackground(new java.awt.Color(0, 102, 102));
         botonCancelar.setForeground(new java.awt.Color(255, 255, 255));
         botonCancelar.setText("Cancelar");
+        botonCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCancelarActionPerformed(evt);
+            }
+        });
 
         botonGuardar.setBackground(new java.awt.Color(0, 102, 102));
         botonGuardar.setForeground(new java.awt.Color(255, 255, 255));
         botonGuardar.setText("Guardar");
+        botonGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonGuardarActionPerformed(evt);
+            }
+        });
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)), "TENSIÓN", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(255, 255, 255))); // NOI18N
         jPanel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -112,8 +125,12 @@ public class NuevaConsultaEnfermeria extends javax.swing.JDialog {
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("MÁXIMA");
 
+        campoMaxima.setName("TENSION MAXIMA"); // NOI18N
+
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("MÍNIMA");
+
+        campoMinima.setName("TENSION MINIMA"); // NOI18N
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -159,6 +176,8 @@ public class NuevaConsultaEnfermeria extends javax.swing.JDialog {
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Nivel de glucosa");
 
+        campoGlucosa.setName("NIVEL DE GLUCOSA"); // NOI18N
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -188,6 +207,8 @@ public class NuevaConsultaEnfermeria extends javax.swing.JDialog {
 
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("Peso");
+
+        campoPeso.setName("PESO"); // NOI18N
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -274,7 +295,18 @@ public class NuevaConsultaEnfermeria extends javax.swing.JDialog {
         getAccessibleContext().setAccessibleDescription("");
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void botonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarActionPerformed
+        // TODO add your handling code here:
+        registar();
+    }//GEN-LAST:event_botonGuardarActionPerformed
+
+    private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_botonCancelarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -339,29 +371,37 @@ public class NuevaConsultaEnfermeria extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     // End of variables declaration//GEN-END:variables
-    int maxima;
-    int minima;
+    double maxima;
+    double minima;
     int glucosa;
-    int peso;
+    double peso;
     Date fecha = new Date();
     int colegiado;
 
     public void registar() {
 
         if (!Utilidades.campoVacio(campoMinima)) {
-            JOptionPane.showMessageDialog(this, "campo obligatorio");
+            Utilidades.lanzaAlertaCampoVacio(campoMinima);
+        } else if (!Utilidades.enteroCorrecto(campoMinima)) {
+            Utilidades.LazarAlertaCampoNumerico(this, campoMinima);
         } else if (!Utilidades.campoVacio(campoMaxima)) {
-            JOptionPane.showMessageDialog(this, "campo abligatorio");
+            Utilidades.lanzaAlertaCampoVacio(campoMaxima);
+        } else if (!Utilidades.enteroCorrecto(campoMaxima)) {
+            Utilidades.LazarAlertaCampoNumerico(this, campoMaxima);
         } else if (!Utilidades.campoVacio(campoPeso)) {
-            JOptionPane.showMessageDialog(this, "campo obligatorio");
+            Utilidades.lanzaAlertaCampoVacio(campoPeso);
+        } else if (!Utilidades.enteroCorrecto(campoPeso)) {
+            Utilidades.LazarAlertaCampoNumerico(this, campoPeso);
         } else if (!Utilidades.campoVacio(campoGlucosa)) {
-
+            Utilidades.lanzaAlertaCampoVacio(campoGlucosa);
+        } else if (!Utilidades.enteroCorrecto(campoGlucosa)) {
+            JOptionPane.showMessageDialog(this, "El campo GLUCOSA solo admite número enteros");
         } else {
             String dni = campoDni.getText();
-            maxima = Integer.parseInt(campoMaxima.getText());
-            minima = Integer.parseInt(campoMinima.getText());
+            maxima = Double.parseDouble(campoMaxima.getText());
+            minima = Double.parseDouble(campoMinima.getText());
             glucosa = Integer.parseInt(campoGlucosa.getText());
-            peso = Integer.parseInt(campoPeso.getText());
+            peso = Double.parseDouble(campoPeso.getText());
             colegiado = Integer.parseInt(Login.datosPersona[1]);
 
             ConsultaEnfermeria cg = new ConsultaEnfermeria(dni, fecha, maxima, minima, glucosa, peso, colegiado);
@@ -369,6 +409,7 @@ public class NuevaConsultaEnfermeria extends javax.swing.JDialog {
 
             if (Conexion.registrarConsultaEnfermeria(cg)) {
                 JOptionPane.showMessageDialog(this, "Registro realizado correctamente");
+                this.dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "Error en la acción de registro. Inténtelo más tarde o póngase en contacto con el administrador del sistema");
             }

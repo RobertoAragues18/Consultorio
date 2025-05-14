@@ -6,15 +6,17 @@ package vistas;
 
 import bbdd.Conexion;
 import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import modelo.Paciente;
+import utilidades.Utilidades;
 
 /**
  *
  * @author rober
  */
 public class Pacientes extends javax.swing.JDialog {
-
+    
     /**
      * Creates new form Pacientes
      */
@@ -22,6 +24,8 @@ public class Pacientes extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         DefaultTableModel mod;
+        tabla.setRowSelectionAllowed(true);
+        tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         mod = (DefaultTableModel) tabla.getModel();
         Conexion.conexion();
         Conexion.cargaTablaPacientes(mod);
@@ -60,6 +64,7 @@ public class Pacientes extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(1000, 600));
         setMinimumSize(new java.awt.Dimension(1000, 600));
+        setResizable(false);
         setSize(new java.awt.Dimension(1000, 600));
 
         jPanel4.setBackground(new java.awt.Color(0, 204, 204));
@@ -79,26 +84,30 @@ public class Pacientes extends javax.swing.JDialog {
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("DNI");
 
-        campoDni.setEditable(false);
+        campoDni.setEnabled(false);
 
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("Nombre");
 
-        campoNombre.setEditable(false);
+        campoNombre.setEnabled(false);
+        campoNombre.setName("NOMBRE"); // NOI18N
 
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
         jLabel11.setText("Apellidos");
 
-        campoApellidos.setEditable(false);
+        campoApellidos.setEnabled(false);
+        campoApellidos.setName("APELLIDOS"); // NOI18N
 
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
         jLabel12.setText("Teléfono");
 
-        campoTelefono.setEditable(false);
+        campoTelefono.setEnabled(false);
+        campoTelefono.setName("TELEFONO"); // NOI18N
 
         jLabel14.setForeground(new java.awt.Color(255, 255, 255));
         jLabel14.setText("CP");
 
+        comboCP.setEditable(true);
         comboCP.setEnabled(false);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -213,7 +222,7 @@ public class Pacientes extends javax.swing.JDialog {
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(0, 153, 153));
-        jLabel7.setText("CONSULTA ENFERMERÍA");
+        jLabel7.setText("PACIENTES");
 
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/logo_good.png"))); // NOI18N
 
@@ -256,29 +265,54 @@ public class Pacientes extends javax.swing.JDialog {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
         // TODO add your handling code here:
         Conexion.conexion();
         Conexion.cargaComboCp(comboCP);
-        Conexion.cerrarConexion();
         cargardatosFila();
+        Conexion.cerrarConexion();
     }//GEN-LAST:event_tablaMouseClicked
 
     private void botonActualizarTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonActualizarTablaActionPerformed
         // TODO add your handling code here:
-        Paciente p = new Paciente(campoNombre.getText(),
-                campoApellidos.getText(),
-                Integer.parseInt(campoTelefono.getText()),
-                Integer.parseInt(comboCP.getSelectedItem().toString()));
-        Conexion.conexion();
-       if (Conexion.actualizaDatos(p,campoDni.getText())){
-           JOptionPane.showMessageDialog(this, "actualizacion correcta");
-       }else{
-       JOptionPane.showMessageDialog(this, "error");
-       }
-        Conexion.cerrarConexion();
+        if (!Utilidades.campoVacio(campoNombre)) {
+            Utilidades.lanzaAlertaCampoVacio(campoNombre);
+        } else if (!Utilidades.campoVacio(campoApellidos)) {
+            Utilidades.lanzaAlertaCampoVacio(campoApellidos);
+        } else if (!Utilidades.campoVacio(campoTelefono)) {
+            Utilidades.lanzaAlertaCampoVacio(campoTelefono);
+        } else if (!Utilidades.enteroCorrecto(campoTelefono)) {
+            Utilidades.LazarAlertaCampoNumerico(this, campoTelefono);
+        } else if (!Utilidades.formatoTelefono(campoTelefono.getText())) {
+            Utilidades.lanzarTelefono(this, "El teléfono no es válido");
+        } else {
+            Paciente p = new Paciente(campoNombre.getText(),
+                    campoApellidos.getText(),
+                    Integer.parseInt(campoTelefono.getText()),
+                    Integer.parseInt(comboCP.getSelectedItem().toString()));
+            Conexion.conexion();
+            if (Conexion.actualizaDatos(p, campoDni.getText())) {
+                JOptionPane.showMessageDialog(this, "actualización correcta");
+                DefaultTableModel mod;
+                mod = (DefaultTableModel) tabla.getModel();
+                mod.setRowCount(0);
+                Conexion.conexion();
+                Conexion.cargaTablaPacientes(mod);
+                Conexion.cerrarConexion();
+                campoDni.setText("");
+                campoNombre.setText("");
+                campoApellidos.setText("");
+                campoTelefono.setText("");
+                comboCP.setSelectedIndex(0);
+                
+            } else {
+                JOptionPane.showMessageDialog(this, "error");
+            }
+            Conexion.cerrarConexion();
+        }
     }//GEN-LAST:event_botonActualizarTablaActionPerformed
 
     /**
@@ -350,9 +384,14 @@ public class Pacientes extends javax.swing.JDialog {
 
         campoDni.setText((String) tabla.getValueAt(fila, 0));
         campoNombre.setText((String) tabla.getValueAt(fila, 1));
+        campoNombre.setEnabled(true);
         campoApellidos.setText((String) tabla.getValueAt(fila, 2));
+        campoApellidos.setEnabled(true);
         campoTelefono.setText((String) tabla.getValueAt(fila, 3));
+        campoTelefono.setEnabled(true);
         comboCP.setSelectedItem((String) tabla.getValueAt(fila, 4));
+        comboCP.setEnabled(true);
+        botonActualizarTabla.setEnabled(true);
 
     }
 }

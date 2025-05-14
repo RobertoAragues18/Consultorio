@@ -55,6 +55,8 @@ public class NuevaConsultaMedica extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(1000, 650));
         setMinimumSize(new java.awt.Dimension(1000, 650));
+        setUndecorated(true);
+        setResizable(false);
         setSize(new java.awt.Dimension(1000, 650));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -95,6 +97,7 @@ public class NuevaConsultaMedica extends javax.swing.JDialog {
         jLabel1.setText("DNI PACIENTE");
 
         campoDni.setEditable(false);
+        campoDni.setName("DNI"); // NOI18N
 
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Diagnóstico");
@@ -119,6 +122,7 @@ public class NuevaConsultaMedica extends javax.swing.JDialog {
 
         campoDiagnostico.setColumns(20);
         campoDiagnostico.setRows(5);
+        campoDiagnostico.setName("DIAGNOSTICO"); // NOI18N
         jScrollPane1.setViewportView(campoDiagnostico);
 
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
@@ -126,6 +130,7 @@ public class NuevaConsultaMedica extends javax.swing.JDialog {
 
         campoTratamiento.setColumns(20);
         campoTratamiento.setRows(5);
+        campoTratamiento.setName("TRATAMIENTO"); // NOI18N
         jScrollPane2.setViewportView(campoTratamiento);
 
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
@@ -133,6 +138,7 @@ public class NuevaConsultaMedica extends javax.swing.JDialog {
 
         campoObservaciones.setColumns(20);
         campoObservaciones.setRows(5);
+        campoObservaciones.setName("OBSERVACIONES"); // NOI18N
         jScrollPane3.setViewportView(campoObservaciones);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -208,12 +214,12 @@ public class NuevaConsultaMedica extends javax.swing.JDialog {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarActionPerformed
         // TODO add your handling code here:
         registar();
-        this.dispose();
     }//GEN-LAST:event_botonGuardarActionPerformed
 
     private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarActionPerformed
@@ -292,11 +298,11 @@ public class NuevaConsultaMedica extends javax.swing.JDialog {
     public void registar() {
 
         if (!Utilidades.areavacia(campoDiagnostico)) {
-            JOptionPane.showMessageDialog(this, "campo obligatorio");
+            Utilidades.lanzarAlertaAreaVacia(campoDiagnostico);
         } else if (!Utilidades.areavacia(campoObservaciones)) {
-            JOptionPane.showMessageDialog(this, "campo abligatorio");
+            Utilidades.lanzarAlertaAreaVacia(campoObservaciones);
         } else if (!Utilidades.areavacia(campoTratamiento)) {
-            JOptionPane.showMessageDialog(this, "campo obligatorio");
+            Utilidades.lanzarAlertaAreaVacia(campoTratamiento);
         } else {
             String dni = campoDni.getText();
             diag = campoDiagnostico.getText();
@@ -313,6 +319,9 @@ public class NuevaConsultaMedica extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(this, "Error en la acción de registro. Inténtelo más tarde o póngase en contacto con el administrador del sistema");
             }
             Conexion.cerrarConexion();
+            campoDiagnostico.setText("");
+            campoObservaciones.setText("");
+            campoTratamiento.setText("");
         }
 
     }

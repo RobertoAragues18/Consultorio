@@ -23,29 +23,41 @@ public class MenuPrincipal extends javax.swing.JFrame {
     public MenuPrincipal() {
         initComponents();
         mod = (DefaultTableModel) tablaAgenda.getModel();
-
+        DefaultTableModel modelo = (DefaultTableModel) tablaAgenda.getModel();
         Date fecha = new Date();
         labelFecha.setText(fecha.toString());
         if ("MEDICO".equals(datosPersona[2])) {
-            labelNombre.setText("Facultativo " + datosPersona[0]);
-            labelColegiado.setText("Numero del colegiado " + datosPersona[1]);
+            labelNombre.setText("Facultativo: " + datosPersona[0]);
+            labelColegiado.setText("Nº de colegiado: " + datosPersona[1]);
             labelCitas.setText("AGENDA DE CITAS MEDICAS");
             botonConsultas.setEnabled(true);
             botonPacientes.setEnabled(true);
+            botonEnfermeria.setEnabled(false);
+            botonPersonalMedico.setEnabled(false);
             Conexion.conexion();
-            Conexion.recuperaCitasMedicas(mod);
+            Conexion.recuperaCitasMedicas(modelo);
+            tablaAgenda.setEnabled(false);
             Conexion.cerrarConexion();
         } else if ("ENFERMERIA".equals(datosPersona[2])) {
-            labelNombre.setText("Facultativo " + datosPersona[0]);
-            labelColegiado.setText("Numero del colegiado " + datosPersona[1]);
+            labelNombre.setText("Facultativo: " + datosPersona[0]);
+            labelColegiado.setText("Nº de colegiado: " + datosPersona[1]);
             labelCitas.setText("AGENDA DE CITAS DE ENFERMERIA");
             botonEnfermeria.setEnabled(true);
+            botonPersonalMedico.setEnabled(false);
+            botonConsultas.setEnabled(false);
+            botonPacientes.setEnabled(false);
             Conexion.conexion();
-            Conexion.recuperaCitasEnfermeria(mod);
+            Conexion.recuperaCitasEnfermeria(modelo);
+            tablaAgenda.setEnabled(false);
             Conexion.cerrarConexion();
         } else if ("ADMIN".equals(datosPersona[2])) {
-            labelNombre.setText("Administrados " + datosPersona[0]);
+            labelNombre.setText("Administrador: " + datosPersona[0]);
+            labelColegiado.setText("");
+            botonEnfermeria.setEnabled(false);
             botonPersonalMedico.setEnabled(true);
+            botonConsultas.setEnabled(false);
+            botonPacientes.setEnabled(false);
+            tablaAgenda.setEnabled(false);
             Conexion.cerrarConexion();
         }
     }
@@ -75,6 +87,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -120,14 +133,29 @@ public class MenuPrincipal extends javax.swing.JFrame {
         botonPacientes.setBackground(new java.awt.Color(51, 153, 255));
         botonPacientes.setForeground(new java.awt.Color(255, 255, 255));
         botonPacientes.setText("PACIENTES");
+        botonPacientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonPacientesActionPerformed(evt);
+            }
+        });
 
         botonPersonalMedico.setBackground(new java.awt.Color(51, 153, 255));
         botonPersonalMedico.setForeground(new java.awt.Color(255, 255, 255));
         botonPersonalMedico.setText("PERSONAL MÉDICO");
+        botonPersonalMedico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonPersonalMedicoActionPerformed(evt);
+            }
+        });
 
         botonConsultas.setBackground(new java.awt.Color(51, 153, 255));
         botonConsultas.setForeground(new java.awt.Color(255, 255, 255));
         botonConsultas.setText("CONSULTAS");
+        botonConsultas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonConsultasActionPerformed(evt);
+            }
+        });
 
         botonEnfermeria.setBackground(new java.awt.Color(51, 153, 255));
         botonEnfermeria.setForeground(new java.awt.Color(255, 255, 255));
@@ -214,6 +242,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonEnfermeriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEnfermeriaActionPerformed
@@ -221,6 +250,24 @@ public class MenuPrincipal extends javax.swing.JFrame {
         Enfermeria e = new Enfermeria(this, true);
         e.setVisible(true);
     }//GEN-LAST:event_botonEnfermeriaActionPerformed
+
+    private void botonConsultasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonConsultasActionPerformed
+        // TODO add your handling code here:
+        Medico m = new Medico(this, true);
+        m.setVisible(true);
+    }//GEN-LAST:event_botonConsultasActionPerformed
+
+    private void botonPacientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonPacientesActionPerformed
+        // TODO add your handling code here:
+        Pacientes p = new Pacientes(this, true);
+        p.setVisible(true);
+    }//GEN-LAST:event_botonPacientesActionPerformed
+
+    private void botonPersonalMedicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonPersonalMedicoActionPerformed
+        // TODO add your handling code here:
+        PersonalMedico pm = new PersonalMedico(this, true);
+        pm.setVisible(true);
+    }//GEN-LAST:event_botonPersonalMedicoActionPerformed
 
     /**
      * @param args the command line arguments

@@ -47,6 +47,7 @@ public class Login extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(755, 450));
         setMinimumSize(new java.awt.Dimension(755, 450));
+        setResizable(false);
         setSize(new java.awt.Dimension(755, 450));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/hospitalLogin.png"))); // NOI18N
@@ -133,6 +134,7 @@ public class Login extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEntrarActionPerformed

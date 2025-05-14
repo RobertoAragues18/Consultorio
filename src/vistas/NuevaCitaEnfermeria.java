@@ -5,9 +5,11 @@
 package vistas;
 
 import bbdd.Conexion;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import modelo.Cita;
 import utilidades.Encriptado;
@@ -27,6 +29,8 @@ public class NuevaCitaEnfermeria extends javax.swing.JDialog {
     public NuevaCitaEnfermeria(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        campoDni.setText(Enfermeria.dni);
+        campoNomApe.setText(Enfermeria.nom + " " + Enfermeria.ape);
     }
 
     /**
@@ -46,16 +50,16 @@ public class NuevaCitaEnfermeria extends javax.swing.JDialog {
         campoNomApe = new javax.swing.JTextField();
         jLabel93 = new javax.swing.JLabel();
         jLabel94 = new javax.swing.JLabel();
-        dateFecha = new com.toedter.calendar.JDateChooser();
         comboHora = new javax.swing.JComboBox<>();
+        comboFecha = new javax.swing.JComboBox<>();
         jPanel1 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setLocationByPlatform(true);
         setMaximumSize(new java.awt.Dimension(600, 465));
         setMinimumSize(new java.awt.Dimension(600, 465));
+        setResizable(false);
         setSize(new java.awt.Dimension(600, 465));
 
         jPanel24.setBackground(new java.awt.Color(0, 204, 204));
@@ -64,6 +68,7 @@ public class NuevaCitaEnfermeria extends javax.swing.JDialog {
         jLabel91.setText("DNI");
 
         campoDni.setEditable(false);
+        campoDni.setName("DNI"); // NOI18N
 
         botonRegistrar.setBackground(new java.awt.Color(0, 102, 102));
         botonRegistrar.setForeground(new java.awt.Color(255, 255, 255));
@@ -78,6 +83,7 @@ public class NuevaCitaEnfermeria extends javax.swing.JDialog {
         jLabel92.setText("Nombre y apellidos");
 
         campoNomApe.setEditable(false);
+        campoNomApe.setName("NOMBRE Y APELLIDOS"); // NOI18N
 
         jLabel93.setForeground(new java.awt.Color(255, 255, 255));
         jLabel93.setText("Fecha");
@@ -85,7 +91,10 @@ public class NuevaCitaEnfermeria extends javax.swing.JDialog {
         jLabel94.setForeground(new java.awt.Color(255, 255, 255));
         jLabel94.setText("Hora");
 
-        comboHora.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Una semana", "Dos semanas", "Un mes" }));
+        comboHora.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "8.00", "8.30", "9.00", "9.30", "10.00", "10.30", "11.00", "11.30", "12.00", "12.30", "13.00" }));
+        comboHora.setName("HORA"); // NOI18N
+
+        comboFecha.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Una semana", "Dos semanas", "Un mes" }));
 
         javax.swing.GroupLayout jPanel24Layout = new javax.swing.GroupLayout(jPanel24);
         jPanel24.setLayout(jPanel24Layout);
@@ -107,13 +116,13 @@ public class NuevaCitaEnfermeria extends javax.swing.JDialog {
                         .addGroup(jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(campoNomApe, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(comboHora, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(dateFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(comboFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel24Layout.createSequentialGroup()
                         .addGap(213, 213, 213)
                         .addComponent(jLabel91)
                         .addGap(18, 18, 18)
                         .addComponent(campoDni, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(105, Short.MAX_VALUE))
+                .addContainerGap(103, Short.MAX_VALUE))
         );
         jPanel24Layout.setVerticalGroup(
             jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -126,11 +135,11 @@ public class NuevaCitaEnfermeria extends javax.swing.JDialog {
                 .addGroup(jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel92)
                     .addComponent(campoNomApe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
-                .addGroup(jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+                .addGroup(jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel93)
-                    .addComponent(dateFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(37, 37, 37)
+                    .addComponent(comboFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(40, 40, 40)
                 .addGroup(jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel94)
                     .addComponent(comboHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -174,19 +183,19 @@ public class NuevaCitaEnfermeria extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel24, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(jPanel24, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarActionPerformed
@@ -244,8 +253,8 @@ public class NuevaCitaEnfermeria extends javax.swing.JDialog {
     private javax.swing.JButton botonRegistrar;
     private javax.swing.JTextField campoDni;
     private javax.swing.JTextField campoNomApe;
+    private javax.swing.JComboBox<String> comboFecha;
     private javax.swing.JComboBox<String> comboHora;
-    private com.toedter.calendar.JDateChooser dateFecha;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel91;
@@ -255,35 +264,27 @@ public class NuevaCitaEnfermeria extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel24;
     // End of variables declaration//GEN-END:variables
-    Date fecha;
-    Double hora;
-    
-    public void nuevaCita() throws Exception {
 
-        if (!Utilidades.campoVacio(campoDni)) {
-            Utilidades.lanzaAlertaCampoVacio(campoDni);
-        } else if (!Utilidades.campoVacio(campoNomApe)) {
-            Utilidades.lanzaAlertaCampoVacio(campoNomApe);
-        } else if (dateFecha.getDate() == null) {
+    public void nuevaCita() throws Exception {
+        if (Utilidades.comboNoSeleccionado(comboFecha)) {
             JOptionPane.showMessageDialog(this, "Debes seleccionar una fecha por favor");
         } else if (Utilidades.comboNoSeleccionado(comboHora)) {
-            JOptionPane.showMessageDialog(this, "Debes seleccionar una hora por favor");
+            JOptionPane.showMessageDialog(this, "Seleccione una hora por favor");
         } else {
-            
+
             String dni = Encriptado.encriptar(campoDni.getText());
             String nombre = Encriptado.encriptar(campoNomApe.getText());
-            hora = Double.parseDouble(comboHora.getSelectedItem().toString());
-            fecha = dateFecha.getDate();
+            Date fec = obtenerFechaCita(comboFecha);
+            double hora = Double.parseDouble(comboHora.getSelectedItem().toString());
 
-            // Crear una nueva cita
-            Cita cita2 = new Cita(campoDni.getText(), campoNomApe.getText(), fecha, hora);
-            Cita cita = new Cita(dni, nombre, fecha, hora);
             Conexion.conexion();
+            Cita cita = new Cita(dni, nombre, fec, hora);
 
             if (Conexion.registrarCitaEnfermeria(cita)) {
 
                 JOptionPane.showMessageDialog(this, "Registro realizado correctamente.");
-                UtilidadEmail.enviaMailHtml(cita2, email);
+                UtilidadEmail.enviaMailHtml(cita, Enfermeria.email);
+                this.dispose();
 
             } else {
                 JOptionPane.showMessageDialog(this, "Error al realizar el registro, intentalo más tarde.");
@@ -291,5 +292,25 @@ public class NuevaCitaEnfermeria extends javax.swing.JDialog {
             Conexion.cerrarConexion();
 
         }
+    }
+
+    public Date obtenerFechaCita(JComboBox comboFecha) {
+        String opcionFecha = (String) comboFecha.getSelectedItem();
+        Calendar calendario = Calendar.getInstance();
+        Date fechaHoy = calendario.getTime();
+        switch (opcionFecha) {
+            case "Una semana":
+                calendario.add(Calendar.DAY_OF_YEAR, 7);
+                break;
+            case "Dos semana":
+                calendario.add(Calendar.DAY_OF_YEAR, 14);
+                break;
+            case "Un mes":
+                calendario.add(Calendar.DAY_OF_YEAR, 30);
+                break;
+            default:
+        }
+        Date fechaCalculada = calendario.getTime();
+        return Utilidades.obtenerSoloFecha(fechaCalculada);
     }
 }

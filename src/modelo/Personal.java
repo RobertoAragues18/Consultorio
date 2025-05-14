@@ -14,16 +14,16 @@ public class Personal {
     private String apellidos;
     private int telefono;
     private String usuario;
-    private String pass;
+    private String contrasenya;
     private String tipo;
 
-    public Personal(int numero_colegiado, String nombre, String apellidos, int telefono, String usuario, String pass, String tipo) {
+    public Personal(int numero_colegiado, String nombre, String apellidos, int telefono, String usuario, String contrasenya, String tipo) {
         this.numero_colegiado = numero_colegiado;
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.telefono = telefono;
         this.usuario = usuario;
-        this.pass = pass;
+        this.contrasenya = contrasenya;
         this.tipo = tipo;
     }
 
@@ -67,12 +67,12 @@ public class Personal {
         this.usuario = usuario;
     }
 
-    public String getPass() {
-        return pass;
+    public String getContrasenya() {
+        return contrasenya;
     }
 
-    public void setPass(String pass) {
-        this.pass = pass;
+    public void setContrasenya(String contrasenya) {
+        this.contrasenya = contrasenya;
     }
 
     public String getTipo() {
@@ -82,6 +82,7 @@ public class Personal {
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
+
     
     
 }

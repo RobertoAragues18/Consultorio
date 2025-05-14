@@ -42,7 +42,6 @@ public class Conexion {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             conn = (Connection) DriverManager.getConnection("jdbc:mysql://145.14.151.1/u812167471_consultorio25", "u812167471_consultorio25", "2025-Consultorio");
-            System.out.println("Conexión exitosa a la base de datos");
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -100,9 +99,9 @@ public class Conexion {
     public static String[] recuperaDatosUser(String user) {
 
         String[] usuario = new String[3];
-        
+
         String consulta = "SELECT CONCAT (nombre, ' ', apellidos), numero_colegiado, tipo FROM personal WHERE usuario= '" + user + "'";
-        
+
         try {
             Statement st = conn.createStatement();
             try (ResultSet rs = st.executeQuery(consulta)) {
@@ -115,7 +114,7 @@ public class Conexion {
         } catch (SQLException ex) {
             Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return usuario;
     }
 
@@ -183,9 +182,22 @@ public class Conexion {
      * @return
      */
     public static boolean registrarCitaMedica(Cita c) {
+        String consultaInsert = "INSERT INTO citas (dniPaciente, nombre, dia, hora) VALUES (?, ?, ?, ?)";
 
+        try {
+            PreparedStatement st = conn.prepareStatement(consultaInsert);
+
+            st.setString(1, c.getDniPaciente());
+            st.setString(2, c.getNombre());
+            st.setDate(3, new java.sql.Date(c.getDia().getTime()));
+            st.setString(4, String.valueOf(c.getHora()));
+
+            st.execute();
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return false;
-
     }
 
     /**
@@ -196,9 +208,21 @@ public class Conexion {
      * @return
      */
     public static boolean registrarCitaEnfermeria(Cita c) {
+        String consultaInsert = "INSERT INTO citasEnfermeria (dniPaciente, nombre, dia, hora) VALUES (?, ?, ?, ?)";
 
+        try {
+            PreparedStatement st = conn.prepareStatement(consultaInsert);
+            st.setString(1, Encriptado.encriptar(c.getDniPaciente()));
+            st.setString(2, Encriptado.encriptar(c.getNombre()));
+            st.setDate(3, new java.sql.Date(c.getDia().getTime()));
+            st.setString(4, String.valueOf(c.getHora()));
+
+            st.execute();
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return false;
-
     }
 
     /**
@@ -209,9 +233,25 @@ public class Conexion {
      * @return
      */
     public static boolean compruebaDni(String dni) {
+        try {
+            String consulta = "SELECT dnipaciente from paciente where dni = '" + dni + "'";
 
+            PreparedStatement pst = conn.prepareStatement(consulta);
+            ResultSet rs;
+
+            try {
+                pst.setString(1, Encriptado.desencriptar(dni));
+            } catch (Exception ex) {
+                Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            rs = pst.executeQuery();
+
+            return rs.next();
+        } catch (SQLException ex) {
+            Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return false;
-
     }
 
     /**
@@ -262,6 +302,22 @@ public class Conexion {
      */
     public static void cargaTablaConsultasMedicas(DefaultTableModel modelo, String dni) {
 
+        String consulta = "SELECT fechaConsulta, diagnostico, tratamiento, observaciones FROM consultas WHERE dniPaciente = ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(consulta);
+            ps.setString(1, Encriptado.encriptar(dni));
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Object[] datos = new Object[4];
+                datos[0] = rs.getString("fechaConsulta");
+                datos[1] = rs.getString("diagnostico");
+                datos[2] = rs.getString("tratamiento");
+                datos[3] = rs.getString("observaciones");
+                modelo.addRow(datos);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -272,17 +328,18 @@ public class Conexion {
      * @param dni
      */
     public static void cargarTablaConsultasEnfermeria(DefaultTableModel modelo, String dni) {
+
+        String consulta = "SELECT fechaConsulta, tensionMax, tensionMin, glucosa, peso FROM enfermeria WHERE dniPaciente = ?";
         try {
-            Object[] datos = new Object[5];
-            String consulta = " SELECT fechaConsulta, tensionMax, tensionMin, glucosa, peso  from enfermeria where fechaConsulta = CURRENT_DATE()";
-
-            ResultSet rs = conn.createStatement().executeQuery(consulta);
+            PreparedStatement ps = conn.prepareStatement(consulta);
+            ps.setString(1, Encriptado.encriptar(dni));
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-
+                Object[] datos = new Object[5];
                 datos[0] = rs.getString("fechaConsulta");
 
                 datos[1] = rs.getString("tensionMax");
-                datos[2] = rs.getString("tensionMax");
+                datos[2] = rs.getString("tensionMin");
                 datos[3] = rs.getString("glucosa");
                 datos[4] = rs.getString("peso");
                 modelo.addRow(datos);
@@ -392,25 +449,24 @@ public class Conexion {
      * @return
      */
     public static boolean registrarPaciente(Paciente p) {
-        try {
-            String consulta = "INSERT INTO pacientes (nombre, apellidos, fechaNacimiento, telefono, email, cp, sexo, tabaquismo, consumoAlcohol,"
-                    + " antecedentesSalud, datosSaludGeneral, fechaRegistro) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement pst = conn.prepareStatement(consulta);
+        String consulta = "INSERT INTO paciente (dni, nombre, apellidos, fechaNacimiento, telefono, email, cp, sexo, tabaquismo, consumoAlcohol,"
+                + " antecedentesSalud, datosSaludGeneral, fechaRegistro) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement pst = conn.prepareStatement(consulta)) {
+            pst.setString(1, Encriptado.encriptar(p.getDni()));
+            pst.setString(2, Encriptado.encriptar(p.getNombre()));
+            pst.setString(3, Encriptado.encriptar(p.getApellidos()));
+            pst.setDate(4, new java.sql.Date(p.getFechaNacimiento().getTime()));
+            pst.setInt(5, p.getTelefono());
+            pst.setString(6, p.getEmail());
+            pst.setInt(7, p.getCp());
+            pst.setString(8, p.getSexo());
+            pst.setString(9, p.getTabaquismo());
+            pst.setString(10, p.getConsumoAlcohol());
+            pst.setString(11, p.getAntecedentesSalud());
+            pst.setString(12, p.getDatosSaludGeneral());
+            pst.setDate(13, new java.sql.Date(System.currentTimeMillis()));
 
-            pst.setString(1, p.getNombre());
-            pst.setString(2, p.getApellidos());
-            pst.setDate(3, (Date) p.getFechaNacimiento());
-            pst.setInt(4, p.getTelefono());
-            pst.setString(5, p.getEmail());
-            pst.setInt(6, p.getCp());
-            pst.setString(7, p.getSexo());
-            pst.setString(8, p.getTabaquismo());
-            pst.setString(9, p.getConsumoAlcohol());
-            pst.setString(10, p.getAntecedentesSalud());
-            pst.setString(11, p.getDatosSaludGeneral());
-            pst.setDate(12, (Date) p.getFechaRegistro());
-
-            pst.execute();
+            pst.executeUpdate();
 
             return true;
         } catch (SQLException ex) {
@@ -459,9 +515,25 @@ public class Conexion {
      * @return
      */
     public static boolean compruebaUser(String user) {
+        try {
+            String consulta = "SELECT usuario FROM personal WHERE usuario = ?";
+
+            PreparedStatement pst = conn.prepareStatement(consulta);
+            pst.setString(1, user);
+
+            ResultSet rs = pst.executeQuery();
+            boolean existe = rs.next();
+
+            rs.close();
+            pst.close();
+
+            return existe;
+        } catch (SQLException ex) {
+            System.err.println("Error al comprobar usuario: " + ex.getMessage());
+            Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         return false;
-
     }
 
     /**
@@ -473,6 +545,22 @@ public class Conexion {
      * @return
      */
     public static boolean compruebaNumeroColegiado(long numero) {
+        try {
+            String consulta = "SELECT numero_colegiado FROM personal WHERE numero_colegiado = ?";
+
+            PreparedStatement pst = conn.prepareStatement(consulta);
+            pst.setLong(1, numero);
+
+            ResultSet rs = pst.executeQuery();
+            boolean existe = rs.next();
+
+            rs.close();
+            pst.close();
+
+            return existe;
+        } catch (SQLException ex) {
+            Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         return false;
 
@@ -486,9 +574,46 @@ public class Conexion {
      * @return
      */
     public static boolean registrarPersonal(Personal p) {
+        try {
+            if (compruebaUser(p.getUsuario())) {
+                System.err.println("Error: El nombre de usuario ya existe.");
+                return false;
+            }
 
+            if (compruebaNumeroColegiado(p.getNumero_colegiado())) {
+                System.err.println("Error: El número de colegiado ya existe.");
+                return false;
+            }
+
+            String consulta = "INSERT INTO personal (numero_colegiado, nombre, apellidos, telefono, usuario, contrasenya, tipo)"
+                    + " VALUES (?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement st = conn.prepareStatement(consulta);
+
+            st.setInt(1, p.getNumero_colegiado());
+            st.setString(2, p.getNombre());
+            st.setString(3, p.getApellidos());
+            st.setInt(4, p.getTelefono());
+            st.setString(5, p.getUsuario());
+
+            try {
+                st.setString(6, Encriptado.encriptar(p.getContrasenya()));
+            } catch (Exception ex) {
+                Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+                return false;
+            }
+
+            st.setString(7, p.getTipo());
+
+            int filasAfectadas = st.executeUpdate();
+            st.close();
+
+            return filasAfectadas > 0;
+
+        } catch (SQLException ex) {
+            System.err.println("Error al registrar personal: " + ex.getMessage());
+            Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return false;
-
     }
 
     public static boolean actualizaDatos(Paciente p, String dni) {

@@ -22,8 +22,9 @@ import utilidades.Utilidades;
  * @author rober
  */
 public class Medico extends javax.swing.JDialog {
+
     JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
-    
+
     public static String email;
     public static String dni;
 
@@ -31,6 +32,7 @@ public class Medico extends javax.swing.JDialog {
     public static String ape;
 
     DefaultTableModel mod;
+
     /**
      * Creates new form Medico
      */
@@ -74,6 +76,7 @@ public class Medico extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(1175, 650));
         setMinimumSize(new java.awt.Dimension(1175, 650));
+        setResizable(false);
         setSize(new java.awt.Dimension(1175, 650));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -110,6 +113,8 @@ public class Medico extends javax.swing.JDialog {
         jLabel18.setForeground(new java.awt.Color(255, 255, 255));
         jLabel18.setText("DNI PACIENTE");
 
+        campoDni.setName("DNI"); // NOI18N
+
         botonBuscarPaciente.setBackground(new java.awt.Color(0, 0, 0));
         botonBuscarPaciente.setForeground(new java.awt.Color(255, 255, 255));
         botonBuscarPaciente.setText("BUSCAR PACIENTE");
@@ -126,16 +131,29 @@ public class Medico extends javax.swing.JDialog {
         jLabel19.setForeground(new java.awt.Color(255, 255, 255));
         jLabel19.setText("Nombre");
 
+        campoNombre.setEnabled(false);
+        campoNombre.setName("NOMBRE"); // NOI18N
+
         jLabel20.setForeground(new java.awt.Color(255, 255, 255));
         jLabel20.setText("Apellidos");
+
+        campoApellidos.setEnabled(false);
+        campoApellidos.setName("APELLIDOS"); // NOI18N
 
         jLabel21.setForeground(new java.awt.Color(255, 255, 255));
         jLabel21.setText("Teléfono");
 
+        campoTelefono.setEnabled(false);
+        campoTelefono.setName("TELEFONO"); // NOI18N
+
         jLabel22.setForeground(new java.awt.Color(255, 255, 255));
         jLabel22.setText("Email");
 
+        campoEmail.setEnabled(false);
+        campoEmail.setName("EMAIL"); // NOI18N
+
         botonInforme.setText("Nuevo Informe");
+        botonInforme.setEnabled(false);
         botonInforme.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonInformeActionPerformed(evt);
@@ -143,6 +161,7 @@ public class Medico extends javax.swing.JDialog {
         });
 
         botonCita.setText("Nueva Cita");
+        botonCita.setEnabled(false);
         botonCita.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonCitaActionPerformed(evt);
@@ -229,14 +248,14 @@ public class Medico extends javax.swing.JDialog {
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
-                .addContainerGap(39, Short.MAX_VALUE)
+                .addContainerGap(41, Short.MAX_VALUE)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addComponent(jLabel18)
-                        .addGap(38, 38, 38)
+                        .addGap(32, 32, 32)
                         .addComponent(campoDni, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(43, 43, 43)
+                        .addGap(49, 49, 49)
                         .addComponent(botonBuscarPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 1108, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28))
@@ -253,11 +272,15 @@ public class Medico extends javax.swing.JDialog {
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGap(41, 41, 41)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel18)
-                    .addComponent(campoDni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(botonBuscarPaciente))
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addGap(41, 41, 41)
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel18)
+                            .addComponent(botonBuscarPaciente)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(campoDni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
@@ -287,49 +310,49 @@ public class Medico extends javax.swing.JDialog {
         getAccessibleContext().setAccessibleDescription("");
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonBuscarPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarPacienteActionPerformed
-        // TODO add your handling code here:
         Conexion.conexion();
         dni = campoDni.getText();
-        nom = campoNombre.getText();
-        ape = campoApellidos.getText();
 
         if (!Utilidades.campoVacio(campoDni)) {
             Utilidades.lanzaAlertaCampoVacio(campoDni);
         } else if (!Utilidades.confirmaacionDNI(campoDni)) {
             JOptionPane.showMessageDialog(this, "El DNI no es válido, introduzca uno válido por favor");
-
+        } else if (!Utilidades.validacionLetraDni(dni)) {
+            JOptionPane.showMessageDialog(this, "La letra del DNI no es válida");
         } else {
             try {
-                Paciente paciente = Conexion.recuperaDatosPaciente(campoDni.getText());
+                Paciente paciente = Conexion.recuperaDatosPaciente(dni);
                 if (paciente != null) {
-                    dni = campoDni.getText();
-                    nom = campoNombre.getText();
-                    ape = campoApellidos.getText();
-                    System.out.println(nom + ape);
                     campoNombre.setText(paciente.getNombre());
                     campoApellidos.setText(paciente.getApellidos());
-                    campoTelefono.setText(String.valueOf((char) paciente.getTelefono()));
+                    campoTelefono.setText(String.valueOf(paciente.getTelefono()));
                     campoEmail.setText(paciente.getEmail());
-                    botonActualizarTabla.setEnabled(rootPaneCheckingEnabled);
+
+                    nom = paciente.getNombre();
+                    ape = paciente.getApellidos();
+                    email = paciente.getEmail();
+
                     mod = (DefaultTableModel) tabla.getModel();
-                    botonInforme.setEnabled(rootPaneCheckingEnabled);
-                    botonCita.setEnabled(rootPaneCheckingEnabled);
+                    mod.setRowCount(0);
                     Conexion.cargaTablaConsultasMedicas(mod, dni);
+
+                    botonActualizarTabla.setEnabled(true);
+                    botonInforme.setEnabled(true);
+                    botonCita.setEnabled(true);
                 } else {
                     JOptionPane.showMessageDialog(this, "No se encontró un paciente con el DNI proporcionado.");
-                    NuevoPaciente N = new NuevoPaciente(frame, rootPaneCheckingEnabled);
+                    NuevoPaciente N = new NuevoPaciente(frame, true);
                     N.setVisible(true);
                 }
             } catch (Exception ex) {
                 Logger.getLogger(Medico.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                Conexion.cerrarConexion();
             }
-            dni = campoDni.getText();
-            nom = campoNombre.getText();
-            ape = campoApellidos.getText();
-            email = campoEmail.getText();
         }
     }//GEN-LAST:event_botonBuscarPacienteActionPerformed
 

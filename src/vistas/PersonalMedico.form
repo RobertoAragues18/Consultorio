@@ -3,10 +3,11 @@
 <Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JDialogFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
+    <Property name="resizable" type="boolean" value="false"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
-    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="true"/>
   </SyntheticProperties>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
@@ -225,16 +226,21 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="campoNombre">
+          <Properties>
+            <Property name="name" type="java.lang.String" value="NOMBRE" noResource="true"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JComboBox" name="comboTipo">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="3">
+              <StringArray count="4">
                 <StringItem index="0" value="Seleccione"/>
                 <StringItem index="1" value="MEDICO"/>
-                <StringItem index="2" value="ENFERMERA"/>
+                <StringItem index="2" value="ENFERMERIA"/>
+                <StringItem index="3" value="ADMIN"/>
               </StringArray>
             </Property>
+            <Property name="name" type="java.lang.String" value="TIPO" noResource="true"/>
           </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -257,14 +263,29 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="campoApellidos">
+          <Properties>
+            <Property name="name" type="java.lang.String" value="APELLIDOS" noResource="true"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="campoColegiado">
+          <Properties>
+            <Property name="name" type="java.lang.String" value="COLEGIADO" noResource="true"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="campoTelefono">
+          <Properties>
+            <Property name="name" type="java.lang.String" value="TELEFONO" noResource="true"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="campoUsuario">
+          <Properties>
+            <Property name="name" type="java.lang.String" value="USUARIO" noResource="true"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JPasswordField" name="campoPass">
+          <Properties>
+            <Property name="name" type="java.lang.String" value="CONTRASE&#xd1;A" noResource="true"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="botonRegistrar">
           <Properties>

@@ -22,6 +22,7 @@ public class PersonalMedico extends javax.swing.JDialog {
     public PersonalMedico(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        
     }
 
     /**
@@ -54,6 +55,7 @@ public class PersonalMedico extends javax.swing.JDialog {
         botonRegistrar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -103,13 +105,26 @@ public class PersonalMedico extends javax.swing.JDialog {
         jLabel14.setForeground(new java.awt.Color(255, 255, 255));
         jLabel14.setText("Usuario");
 
-        comboTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "MEDICO", "ENFERMERA" }));
+        campoNombre.setName("NOMBRE"); // NOI18N
+
+        comboTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "MEDICO", "ENFERMERIA", "ADMIN" }));
+        comboTipo.setName("TIPO"); // NOI18N
 
         jLabel15.setForeground(new java.awt.Color(255, 255, 255));
         jLabel15.setText("Contraseña");
 
         jLabel16.setForeground(new java.awt.Color(255, 255, 255));
         jLabel16.setText("Tipo");
+
+        campoApellidos.setName("APELLIDOS"); // NOI18N
+
+        campoColegiado.setName("COLEGIADO"); // NOI18N
+
+        campoTelefono.setName("TELEFONO"); // NOI18N
+
+        campoUsuario.setName("USUARIO"); // NOI18N
+
+        campoPass.setName("CONTRASEÑA"); // NOI18N
 
         botonRegistrar.setText("REGISTRAR");
         botonRegistrar.addActionListener(new java.awt.event.ActionListener() {
@@ -201,11 +216,55 @@ public class PersonalMedico extends javax.swing.JDialog {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarActionPerformed
-        // TODO add your handling code here:
-        registrarPersonal();
+        Conexion.conexion();
+        if (!Utilidades.campoVacio(campoColegiado)) {
+            Utilidades.lanzaAlertaCampoVacio(campoColegiado);
+        } else if (!Utilidades.enteroCorrecto(campoColegiado)) {
+            Utilidades.LazarAlertaCampoNumerico(this, campoColegiado);
+        } else if (!Utilidades.validacionColegiado(campoColegiado.getText())) {
+            JOptionPane.showMessageDialog(this, "Formato de número de colegiado incorrecto");
+        } else if (Conexion.compruebaNumeroColegiado(Long.parseLong(campoColegiado.getText()))) {
+            JOptionPane.showMessageDialog(this, "Este número de colegiado ya está en uso, prueba con otro");
+        } else if (!Utilidades.campoVacio(campoNombre)) {
+            Utilidades.lanzaAlertaCampoVacio(campoNombre);
+        } else if (!Utilidades.campoVacio(campoApellidos)) {
+            Utilidades.lanzaAlertaCampoVacio(campoApellidos);
+        } else if (!Utilidades.campoVacio(campoTelefono)) {
+            Utilidades.lanzaAlertaCampoVacio(campoTelefono);
+        } else if (!Utilidades.enteroCorrecto(campoTelefono)) {
+            Utilidades.LazarAlertaCampoNumerico(this, campoTelefono);
+        } else if (!Utilidades.formatoTelefono(campoTelefono.getText())) {
+            Utilidades.lanzarTelefono(this, "Formato de teléfono incorrecto");
+        } else if (!Utilidades.campoVacio(campoUsuario)) {
+            Utilidades.lanzaAlertaCampoVacio(campoUsuario);
+        } else if (Conexion.compruebaUser(campoUsuario.getText())) {
+            JOptionPane.showMessageDialog(this, "El nombre de usuario ya está en uso, pruebe con otro");
+        } else if (!Utilidades.campoVacio(campoPass)) {
+            Utilidades.lanzaAlertaCampoVacio(campoPass);
+        } else if (Utilidades.comboNoSeleccionado(comboTipo)) {
+            JOptionPane.showMessageDialog(this, "Seleccione MEDICO, ENFERMERIA o ADMIN por favor");
+        } else {
+            Personal p = new Personal(
+                    Integer.parseInt(campoColegiado.getText()),
+                    campoNombre.getText(),
+                    campoApellidos.getText(),
+                    Integer.parseInt(campoTelefono.getText()),
+                    campoUsuario.getText(),
+                    new String(campoPass.getPassword()),
+                    comboTipo.getSelectedItem().toString()
+            );
+            if (Conexion.registrarPersonal(p)) {
+                JOptionPane.showMessageDialog(this, "Registro realizado correctamente.");
+                limpiarCampos();
+            } else {
+                JOptionPane.showMessageDialog(this, "Error al realizar el registro. El usuario o número de colegiado ya pueden existir.");
+            }
+            Conexion.cerrarConexion();
+        }
     }//GEN-LAST:event_botonRegistrarActionPerformed
 
     /**
@@ -271,48 +330,13 @@ public class PersonalMedico extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
-    String nom, ape, usua, cont, tipoP;
-    int num_cole, tele;
-
-    void registrarPersonal() {
-
-        if (!Utilidades.campoVacio(campoColegiado)) {
-            Utilidades.lanzaAlertaCampoVacio(campoColegiado);
-        } else if (!Utilidades.campoVacio(campoNombre)) {
-            Utilidades.lanzaAlertaCampoVacio(campoNombre);
-        } else if (!Utilidades.campoVacio(campoApellidos)) {
-            Utilidades.lanzaAlertaCampoVacio(campoApellidos);
-        } else if (!Utilidades.campoVacio(campoTelefono)) {
-            Utilidades.lanzaAlertaCampoVacio(campoTelefono);
-        } else if (!Utilidades.campoVacio(campoUsuario)) {
-            Utilidades.lanzaAlertaCampoVacio(campoUsuario);
-        } else if (!Utilidades.campoVacio(campoPass)) {
-            Utilidades.lanzaAlertaCampoVacio(campoPass);
-        } else if (Utilidades.comboNoSeleccionado(comboTipo)) {
-            JOptionPane.showMessageDialog(this, "Seleccione medico o enfermeria porfavor");
-        } else {
-
-            num_cole = Integer.parseInt(campoColegiado.getText());
-            nom = campoNombre.getText();
-            ape = campoApellidos.getText();
-            tele = Integer.parseInt(campoTelefono.getText());
-            tipoP = (String) comboTipo.getSelectedItem();
-            usua = campoUsuario.getText();
-            cont = new String(campoPass.getPassword());
-
-            Personal p = new Personal(num_cole, nom, ape, HIDE_ON_CLOSE, usua, cont, tipoP);
-
-            Conexion.conexion();
-
-            if (Conexion.registrarPersonal(p)) {
-
-                JOptionPane.showMessageDialog(this, "Registro realizado correctamente.");
-
-            } else {
-                JOptionPane.showMessageDialog(this, "Error al realizar el registro, intentalo más tarde.");
-            }
-            Conexion.cerrarConexion();
-        }
-
+    private void limpiarCampos() {
+        campoColegiado.setText("");
+        campoNombre.setText("");
+        campoApellidos.setText("");
+        campoTelefono.setText("");
+        campoUsuario.setText("");
+        campoPass.setText("");
+        comboTipo.setSelectedIndex(0);
     }
 }

@@ -9,13 +9,14 @@
     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
       <Dimension value="[1175, 650]"/>
     </Property>
+    <Property name="resizable" type="boolean" value="false"/>
     <Property name="size" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
       <Dimension value="[1175, 650]"/>
     </Property>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
-    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="true"/>
   </SyntheticProperties>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
@@ -172,6 +173,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="campoDni">
+          <Properties>
+            <Property name="name" type="java.lang.String" value="DNI" noResource="true"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="botonBuscarPaciente">
           <Properties>
@@ -275,6 +279,10 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="campoNombre">
+              <Properties>
+                <Property name="enabled" type="boolean" value="false"/>
+                <Property name="name" type="java.lang.String" value="NOMBRE" noResource="true"/>
+              </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel3">
               <Properties>
@@ -285,6 +293,10 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="campoApellidos">
+              <Properties>
+                <Property name="enabled" type="boolean" value="false"/>
+                <Property name="name" type="java.lang.String" value="APELLIDOS" noResource="true"/>
+              </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel4">
               <Properties>
@@ -295,6 +307,10 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="campoTelefono">
+              <Properties>
+                <Property name="enabled" type="boolean" value="false"/>
+                <Property name="name" type="java.lang.String" value="TELEFONO" noResource="true"/>
+              </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel5">
               <Properties>
@@ -305,10 +321,15 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="campoEmail">
+              <Properties>
+                <Property name="enabled" type="boolean" value="false"/>
+                <Property name="name" type="java.lang.String" value="EMAIL" noResource="true"/>
+              </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="botonInforme">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Nuevo Informe"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonInformeActionPerformed"/>
@@ -317,6 +338,7 @@
             <Component class="javax.swing.JButton" name="botonCita">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Nueva Cita"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonCitaActionPerformed"/>
@@ -342,13 +364,15 @@
             <Component class="javax.swing.JTable" name="tabla">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="4" rowCount="0">
+                  <Table columnCount="5" rowCount="0">
                     <Column editable="true" title="FECHA" type="java.lang.Object"/>
-                    <Column editable="true" title="DIAGN&#xd3;STICO" type="java.lang.Object"/>
-                    <Column editable="true" title="TRATAMIENTO" type="java.lang.Object"/>
-                    <Column editable="true" title="OBSERVACIONES" type="java.lang.Object"/>
+                    <Column editable="true" title="M&#xc1;XIMA" type="java.lang.Object"/>
+                    <Column editable="true" title="M&#xcd;NIMA" type="java.lang.Object"/>
+                    <Column editable="true" title="GLUCOSA" type="java.lang.Object"/>
+                    <Column editable="true" title="PESO" type="java.lang.Object"/>
                   </Table>
                 </Property>
+                <Property name="name" type="java.lang.String" value="" noResource="true"/>
               </Properties>
               <Events>
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tablaMouseClicked"/>

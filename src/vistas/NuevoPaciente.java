@@ -8,6 +8,7 @@ import bbdd.Conexion;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import modelo.Paciente;
+import utilidades.Encriptado;
 import utilidades.Utilidades;
 
 /**
@@ -27,7 +28,9 @@ public class NuevoPaciente extends javax.swing.JDialog {
         } else {
             campoDni.setText(Enfermeria.dni);
         }
-
+        Mujer.setSelected(true);
+        NO.setSelected(true);
+        Habitual.setSelected(true);
         Conexion.conexion();
         Conexion.cargaComboCp(comboCP);
         Conexion.cerrarConexion();
@@ -87,6 +90,7 @@ public class NuevoPaciente extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(1000, 600));
         setMinimumSize(new java.awt.Dimension(1000, 600));
+        setResizable(false);
         setSize(new java.awt.Dimension(1000, 600));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -129,13 +133,17 @@ public class NuevoPaciente extends javax.swing.JDialog {
         jLabel1.setText("DNI");
 
         campoDni.setEditable(false);
+        campoDni.setName("DNI"); // NOI18N
 
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Nombre");
 
+        campoNombre.setName("NOMBRE"); // NOI18N
+
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Apellidos");
 
+        campoApellidos.setName("APELLIDOS"); // NOI18N
         campoApellidos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 campoApellidosActionPerformed(evt);
@@ -148,8 +156,12 @@ public class NuevoPaciente extends javax.swing.JDialog {
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Teléfono");
 
+        campoTelefono.setName("TELEFONO"); // NOI18N
+
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Email");
+
+        campoEmail.setName("EMAIL"); // NOI18N
 
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("Código Postal");
@@ -162,6 +174,8 @@ public class NuevoPaciente extends javax.swing.JDialog {
 
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
         jLabel12.setText("Consumo de alcohol");
+
+        comboCP.setName("CODIGO POSTAL"); // NOI18N
 
         GrupoBotonSexo.add(Mujer);
         Mujer.setForeground(new java.awt.Color(255, 255, 255));
@@ -195,6 +209,8 @@ public class NuevoPaciente extends javax.swing.JDialog {
         SI.setForeground(new java.awt.Color(255, 255, 255));
         SI.setText("SI");
 
+        fechaNacimiento.setName("FECHA DE NACIMIENTO"); // NOI18N
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -215,31 +231,31 @@ public class NuevoPaciente extends javax.swing.JDialog {
                         .addComponent(jLabel1)
                         .addGap(39, 39, 39)
                         .addComponent(campoDni, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(82, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel12)
-                            .addComponent(jLabel10)
-                            .addComponent(jLabel11))
-                        .addGap(42, 42, 42)
-                        .addComponent(Ocasional)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
-                        .addComponent(Habitual)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(21, 21, 21)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addGap(39, 39, 39)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel12)
+                            .addComponent(jLabel10)
+                            .addComponent(jLabel11))))
+                .addGap(39, 39, 39)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(Habitual)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(Ocasional))
                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(campoEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(campoTelefono)
                                 .addComponent(comboCP, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(jPanel3Layout.createSequentialGroup()
@@ -254,11 +270,14 @@ public class NuevoPaciente extends javax.swing.JDialog {
                                             .addGap(41, 41, 41)
                                             .addComponent(SI)))))
                             .addComponent(fechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Otros)
-                    .addComponent(Nulo))
-                .addGap(40, 40, 40))
+                        .addGap(12, 12, 12)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Otros)
+                            .addComponent(Nulo))
+                        .addGap(40, 40, 40))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(campoEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -305,10 +324,10 @@ public class NuevoPaciente extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
-                    .addComponent(Ocasional)
                     .addComponent(Habitual)
-                    .addComponent(Nulo))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(Nulo)
+                    .addComponent(Ocasional))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)), "Salud", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(255, 255, 255))); // NOI18N
@@ -407,6 +426,7 @@ public class NuevoPaciente extends javax.swing.JDialog {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void campoApellidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoApellidosActionPerformed
@@ -503,12 +523,9 @@ public class NuevoPaciente extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
-    String nombre, apellidos, email;
-    String hombre, mujer, otro;
-    String no, si, ocasional, habitual, nulo;
-    String sexo, taba, consumoAlcohol, antecedentes, alergias;
+
+    String sexo, taba, consumoAlcohol;
     int tele, cp;
-    Date FechaNac;
 
     void registrarNuevoPaciente() {
 
@@ -519,25 +536,29 @@ public class NuevoPaciente extends javax.swing.JDialog {
         } else if (fechaNacimiento.getDate() == null) {
             JOptionPane.showMessageDialog(this, "Debes seleccionar una fecha por favor");
         } else if (!Utilidades.campoVacio(campoTelefono)) {
+            Utilidades.lanzaAlertaCampoVacio(campoTelefono);
+        } else if (!Utilidades.enteroCorrecto(campoTelefono)) {
             Utilidades.LazarAlertaCampoNumerico(this, campoTelefono);
+        } else if (!Utilidades.formatoTelefono(campoTelefono.getText())) {
+            Utilidades.lanzarTelefono(this, "Formato de teléfono incorrecto");
         } else if (!Utilidades.campoVacio(campoEmail)) {
             Utilidades.lanzaAlertaCampoVacio(campoEmail);
-        } else if (Utilidades.comboNoSeleccionado(comboCP)) {
-            JOptionPane.showMessageDialog(this, "Debes seleccionar un codigo postal valido");
+        } else if (!Utilidades.correoCorrecto(campoEmail)) {
+            JOptionPane.showMessageDialog(this, "Formato de Email incorrecto");
         } else if (!Utilidades.areavacia(campoAntecedentes)) {
             JOptionPane.showMessageDialog(this, "Debes esribir algo en antecedentes medicos porfavor");
         } else if (!Utilidades.areavacia(campoPersonal)) {
             JOptionPane.showMessageDialog(this, "Debes seleccionar un codigo postal valido");
         } else {
-
-            nombre = campoNombre.getText();
-            apellidos = campoApellidos.getText();
-            FechaNac = fechaNacimiento.getDate();
+            String dni = campoDni.getText();
+            String nombre = campoNombre.getText();
+            String apellidos = Encriptado.encriptar(campoApellidos.getText());
+            Date FechaNac = fechaNacimiento.getDate();
             tele = Integer.parseInt(campoTelefono.getText());
-            email = campoEmail.getText();
+            String email = campoEmail.getText();
             cp = Integer.parseInt(comboCP.getSelectedItem().toString());
-            antecedentes = campoAntecedentes.getText();
-            alergias = campoPersonal.getText();
+            String antecedentes = campoAntecedentes.getText();
+            String alergias = campoPersonal.getText();
 
             if (Mujer.isSelected()) {
                 sexo = "M";
@@ -560,12 +581,12 @@ public class NuevoPaciente extends javax.swing.JDialog {
                 consumoAlcohol = "Nulo";
             }
 
-            Paciente paciente = new Paciente(campoDni.getText(), nombre, apellidos, FechaNac, tele, email, cp, sexo, taba, consumoAlcohol, antecedentes, alergias, FechaNac);
+            Paciente paciente = new Paciente(dni, nombre, apellidos, FechaNac, tele, email, cp, sexo, taba, consumoAlcohol, antecedentes, alergias, FechaNac);
             Conexion.conexion();
             if (Conexion.registrarPaciente(paciente)) {
 
                 JOptionPane.showMessageDialog(this, "Registro realizado correctamente.");
-
+                this.dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "Error al realizar el registro, intentalo más tarde.");
             }
